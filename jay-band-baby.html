@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jay Bando Baby — Great Minds Creating</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Bebas+Neue&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{colors:{"primary":"#ffb59d","primary-container":"#ff6b35","on-primary":"#5d1900","on-primary-fixed":"#390c00","secondary-fixed":"#ffe16d","secondary-container":"#ffdb3c","on-secondary-fixed":"#221b00","surface-dim":"#131313","surface":"#131313","surface-container-lowest":"#0e0e0e","surface-container-low":"#1c1b1b","surface-container":"#201f1f","surface-container-high":"#2a2a2a","surface-container-highest":"#353534","surface-bright":"#3a3939","background":"#131313","on-background":"#e5e2e1","on-surface":"#e5e2e1","on-surface-variant":"#e1bfb5","outline":"#a98a80","outline-variant":"#594139","error":"#ffb4ab"},fontFamily:{"bebas":["Bebas Neue"],"body":["Manrope"],"label":["Manrope"],"headline":["Space Grotesk"]}}}
+}
+</script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  .text-glow{text-shadow:0 0 30px rgba(255,107,53,0.5)}
+  .glass-panel{background:rgba(19,19,19,0.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+  .admin-only{display:none!important}
+  .admin-only.admin-visible{display:flex!important}
+  .btn-admin-inline{display:none!important}
+  .btn-admin-inline.admin-visible{display:inline-flex!important}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .skeleton{background:linear-gradient(90deg,#1a1a1a 25%,#222 50%,#1a1a1a 75%);background-size:200% 100%;animation:shimmer 2.5s infinite;border-radius:8px}
+</style>
+</head>
+<body class="bg-background text-on-surface font-body pb-20 md:pb-0">
+
+<!-- NAVBAR -->
+<header class="bg-[#0E0E0E] border-b border-[#FFD700]/40 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
+        <img src="assets/logos/logo-main.png" alt="GMC" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Bebas Neue;font-size:0.85rem;color:#0e0e0e\'>GMC</span>'"/>
+      </div>
+      <span class="font-headline tracking-[-0.04em] uppercase text-xl font-bold text-on-surface">GMC</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 font-label text-xs uppercase tracking-widest">
+      <a href="index.html" class="text-on-surface hover:text-primary transition-colors">Home</a>
+      <a href="jay-bando-baby.html" class="text-on-surface hover:text-primary transition-colors">Jay Bando Baby</a>
+      <a href="jay-bando-baby.html" class="text-primary border-b border-primary pb-0.5">Jay Bando Baby</a>
+      <a href="cassh-create.html" class="text-on-surface hover:text-primary transition-colors">casshcreate</a>
+      <a href="create-hub.html" class="text-on-surface hover:text-primary transition-colors">Create Hub</a>
+      <a href="merch.html" class="text-on-surface hover:text-primary transition-colors">Merch</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <button id="loginBtn" onclick="openLoginModal()" class="bg-primary-container text-on-primary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-125 transition-all">Login</button>
+      <button id="logoutBtn" onclick="handleLogout()" style="display:none" class="border border-outline text-on-surface px-4 py-2 font-bold text-xs uppercase tracking-widest hover:border-primary hover:text-primary transition-all">Logout</button>
+      <button onclick="toggleMobileMenu()" class="md:hidden text-on-surface"><span class="material-symbols-outlined">menu</span></button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-surface-container-lowest border-t border-outline-variant/20 px-4 pb-4">
+    <div class="flex flex-col gap-4 pt-4 font-label text-xs uppercase tracking-widest">
+      <a href="index.html" class="text-on-surface">Home</a>
+      <a href="jay-bando-baby.html" class="text-on-surface">Jay Bando Baby</a>
+      <a href="jay-bando-baby.html" class="text-primary">Jay Bando Baby</a>
+      <a href="cassh-create.html" class="text-on-surface">casshcreate</a>
+      <a href="create-hub.html" class="text-on-surface">Create Hub</a>
+      <a href="merch.html" class="text-on-surface">Merch</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative w-full h-[60vh] min-h-[400px] overflow-hidden" style="background:linear-gradient(135deg,#0e0e0e 0%,#0a0e00 50%,#0e0e0e 100%)">
+  <div class="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+  <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-16 pb-12 max-w-7xl mx-auto">
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-3">Great Minds Creating</p>
+    <h1 class="font-bebas text-8xl md:text-[10rem] leading-none text-on-surface text-glow mb-6">Jay Bando Baby</h1>
+    <div class="flex items-center gap-4 flex-wrap">
+      <button id="followBtn" onclick="handleFollow('Jay Bando Baby')" class="border-2 border-primary-container text-on-surface px-8 py-3 font-bold uppercase tracking-widest hover:bg-primary-container hover:text-on-primary-fixed transition-all">Follow</button>
+      <div class="flex items-center gap-2 text-secondary-fixed">
+        <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1;">verified</span>
+        <span class="font-label text-xs uppercase tracking-widest">Verified GMC Artist</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+<!-- BIO -->
+<section class="py-20 px-6 md:px-12 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+    <div class="border-l-4 border-primary-container pl-8 max-w-3xl">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-4">The Artist</p>
+      <h2 class="font-bebas text-5xl md:text-6xl mb-8">About B Blazo</h2>
+      <div id="artistBio" class="space-y-4 text-on-surface-variant text-lg leading-relaxed">
+        <p>B Blazo is the sonic architect behind Great Minds Creating. Known for innovative production and hard-hitting beats, B Blazo brings the sound that defines the collective.</p>
+        <p>Every track crafted with precision — raw energy meets refined technique in a style that is unmistakably B Blazo.</p>
+      </div>
+    </div>
+    <button onclick="editBio('Jay Bando Baby')" class="btn-admin-inline mt-8 items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-5 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
+      <span class="material-symbols-outlined text-sm">edit</span>Edit Bio
+    </button>
+  </div>
+</section>
+
+<!-- LATEST SONGS -->
+<section class="py-20 px-6 md:px-12 bg-surface-container-lowest">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-12">
+      <div>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Audio Archive</p>
+        <h2 class="font-bebas text-5xl md:text-6xl text-on-surface">Latest Soundscapes</h2>
+      </div>
+      <button onclick="addArtistSong('Jay Bando Baby')" class="btn-admin-inline items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
+        <span class="material-symbols-outlined text-sm">add</span>Add Song
+      </button>
+    </div>
+    <div id="songsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="skeleton rounded-xl" style="height:152px"></div>
+      <div class="skeleton rounded-xl" style="height:152px"></div>
+      <div class="skeleton rounded-xl" style="height:152px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MUSIC VIDEOS -->
+<section class="py-20 px-6 md:px-12 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-12">
+      <div>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Visual Narrative</p>
+        <h2 class="font-bebas text-5xl md:text-6xl text-on-surface">Music Videos</h2>
+      </div>
+      <button onclick="addArtistVideo('Jay Bando Baby')" class="btn-admin-inline items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
+        <span class="material-symbols-outlined text-sm">add</span>Add Video
+      </button>
+    </div>
+    <div id="videosGrid" class="grid md:grid-cols-2 gap-8">
+      <div class="aspect-video bg-surface-container-high rounded-xl flex items-center justify-center">
+        <div class="text-center"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30">videocam_off</span><p class="font-label text-xs uppercase tracking-widest text-on-surface-variant/40 mt-2">Videos Coming Soon</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="py-20 px-6 md:px-12 bg-surface-container-low overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-4 mb-10">
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+      <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">@jaybandobaby Highlights</h2>
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+    </div>
+    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+      <a href="https://instagram.com/jaybandobaby" target="_blank" class="min-w-[200px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20"><p class="font-label text-xs uppercase tracking-widest text-on-surface">@jaybandobaby</p></div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30">photo_camera</span></div>
+      </a>
+      <a href="https://instagram.com/jaybandobaby" target="_blank" class="min-w-[200px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20"><p class="font-label text-xs uppercase tracking-widest text-on-surface">@jaybandobaby</p></div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30">photo_camera</span></div>
+      </a>
+      <a href="https://instagram.com/jaybandobaby" target="_blank" class="min-w-[200px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20"><p class="font-label text-xs uppercase tracking-widest text-on-surface">@jaybandobaby</p></div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30">photo_camera</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-surface-container-lowest py-16 px-6 md:px-12 border-t border-outline-variant/20">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+    <div><p class="font-bebas text-4xl text-on-surface mb-1">Connect with B Blazo</p><p class="font-label text-xs uppercase tracking-widest text-primary">Global Movement Official</p></div>
+    <div class="flex gap-4">
+      <a href="https://open.spotify.com" target="_blank" class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary-container hover:border-primary-container transition-all group"><span class="material-symbols-outlined text-on-surface group-hover:text-on-primary-fixed">music_note</span></a>
+      <a href="https://instagram.com/jaybandobaby" target="_blank" class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary-container hover:border-primary-container transition-all group"><span class="material-symbols-outlined text-on-surface group-hover:text-on-primary-fixed">photo_camera</span></a>
+    </div>
+  </div>
+</footer>
+</main>
+
+<!-- MOBILE NAV -->
+<nav class="md:hidden bg-[#0E0E0E]/80 backdrop-blur-xl border-t border-outline-variant/20 fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-4">
+  <a href="index.html" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">home</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Home</span></a>
+  <a href="jay-bando-baby.html" class="flex flex-col items-center text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">mic</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Artists</span></a>
+  <a href="create-hub.html" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">videocam</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Hub</span></a>
+  <a href="merch.html" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">shopping_bag</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Merch</span></a>
+  <button onclick="openLoginModal()" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">account_circle</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Login</span></button>
+</nav>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
+  <div class="relative bg-surface-container border border-outline-variant/40 p-8 w-full max-w-sm mx-4">
+    <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Admin Access</p>
+    <h2 class="font-bebas text-4xl text-on-surface mb-6">Login</h2>
+    <div id="loginError" class="hidden bg-error/10 border border-error/30 text-error text-xs font-label px-3 py-2 mb-4"></div>
+    <form onsubmit="handleLogin(event)" class="space-y-4">
+      <input id="loginEmail" type="email" required placeholder="Email" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <input id="loginPassword" type="password" required placeholder="Password" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <button type="submit" id="loginSubmitBtn" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Login</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="config/firebase-config.js"></script>
+<script>
+var ADMIN_USERS={'torrancegreen22@yahoo.com':{role:'super_admin'},'jaybandz635@gmail.com':{role:'artist_admin',access:'Jay Bando Baby'},'beats4bblazo@gmail.com':{role:'artist_admin',access:'Jay Bando Baby'}};
+var currentUser=null;var ARTIST='Jay Bando Baby';
+document.addEventListener('DOMContentLoaded',function(){
+  loadSongs();loadVideos();
+  if(typeof firebase!=='undefined'&&firebase.auth){firebase.auth().onAuthStateChanged(function(u){currentUser=u;if(u){handleUserLoggedIn(u);}else{handleUserLoggedOut();}});}
+});
+function loadSongs(){var grid=document.getElementById('songsGrid');if(!grid)return;if(typeof firebase==='undefined'||!firebase.firestore){showDefaultSongs(grid);return;}firebase.firestore().collection('songs').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(6).get().then(function(snap){if(snap.empty){showDefaultSongs(grid);return;}grid.innerHTML='';snap.forEach(function(doc){var r=doc.data();var div=document.createElement('div');div.className='bg-surface-container-high rounded-xl overflow-hidden';if(r.spotifyLink){var id=r.spotifyLink.split('/').pop().split('?')[0];var type=r.spotifyLink.indexOf('/album/')!==-1?'album':'track';div.innerHTML='<iframe style="border-radius:12px;display:block" src="https://open.spotify.com/embed/'+type+'/'+id+'?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';}else{div.innerHTML='<div style="height:152px;background:#2a2a2a;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:2rem;color:#594139">music_note</span></div>';}grid.appendChild(div);});}).catch(function(){showDefaultSongs(grid);});}
+function showDefaultSongs(grid){grid.innerHTML='<div class="bg-surface-container-high rounded-xl overflow-hidden"><iframe style="border-radius:12px;display:block" src="https://open.spotify.com/embed/album/6wUYfAEUysLOeR0uK5I7w1?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div><div class="skeleton rounded-xl" style="height:152px"></div><div class="skeleton rounded-xl" style="height:152px"></div>';}
+function loadVideos(){var grid=document.getElementById('videosGrid');if(!grid||typeof firebase==='undefined'||!firebase.firestore)return;firebase.firestore().collection('videos').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(4).get().then(function(snap){if(snap.empty)return;grid.innerHTML='';snap.forEach(function(doc){var v=doc.data();var div=document.createElement('div');div.className='aspect-video bg-surface-container-high rounded-xl overflow-hidden';if(v.youtubeId)div.innerHTML='<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+v.youtubeId+'" frameborder="0" allowfullscreen></iframe>';grid.appendChild(div);});}).catch(function(){});}
+function handleUserLoggedIn(u){var email=u.email?u.email.toLowerCase():'';var a=ADMIN_USERS[email];document.getElementById('loginBtn').style.display='none';document.getElementById('logoutBtn').style.display='inline-block';if(a&&(a.role==='super_admin'||a.access===ARTIST)){document.querySelectorAll('.btn-admin-inline').forEach(function(el){el.classList.add('admin-visible');});document.querySelectorAll('.admin-only').forEach(function(el){el.classList.add('admin-visible');});}}
+function handleUserLoggedOut(){document.getElementById('loginBtn').style.display='inline-block';document.getElementById('logoutBtn').style.display='none';document.querySelectorAll('.btn-admin-inline,.admin-only').forEach(function(el){el.classList.remove('admin-visible');});}
+function openLoginModal(){document.getElementById('loginModal').classList.remove('hidden');}
+function closeLoginModal(){document.getElementById('loginModal').classList.add('hidden');}
+function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('hidden');}
+function handleLogout(){if(typeof firebase!=='undefined'&&firebase.auth)firebase.auth().signOut();}
+function handleLogin(e){e.preventDefault();var email=document.getElementById('loginEmail').value;var pw=document.getElementById('loginPassword').value;var btn=document.getElementById('loginSubmitBtn');var err=document.getElementById('loginError');if(typeof firebase==='undefined'||!firebase.auth){err.textContent='Firebase not configured.';err.classList.remove('hidden');return;}btn.textContent='Logging in...';btn.disabled=true;firebase.auth().signInWithEmailAndPassword(email,pw).then(function(){closeLoginModal();}).catch(function(error){err.textContent=error.message;err.classList.remove('hidden');btn.textContent='Login';btn.disabled=false;});}
+function handleFollow(artist){if(!currentUser){openLoginModal();return;}if(typeof firebase==='undefined'||!firebase.firestore)return;firebase.firestore().collection('follows').add({userId:currentUser.uid,artist:artist,followedAt:new Date().toISOString()}).then(function(){var btn=document.getElementById('followBtn');btn.textContent='Following';});}
+function editBio(artist){if(!currentUser){alert('Admin login required.');return;}var bio=prompt('Enter new bio:',document.getElementById('artistBio').innerText);if(!bio)return;if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}firebase.firestore().collection('artists').where('name','==',artist).get().then(function(snap){if(snap.empty){firebase.firestore().collection('artists').add({name:artist,bio:bio});}else{snap.docs[0].ref.update({bio:bio});}document.getElementById('artistBio').innerHTML='<p>'+bio+'</p>';});}
+function addArtistSong(artist){if(!currentUser){alert('Admin login required.');return;}var url=prompt('Spotify URL:');if(!url)return;var title=prompt('Title:');if(!title)return;if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}firebase.firestore().collection('songs').add({title:title,artist:artist,spotifyLink:url,releaseDate:new Date().toISOString()}).then(function(){loadSongs();});}
+function addArtistVideo(artist){if(!currentUser){alert('Admin login required.');return;}var url=prompt('YouTube URL:');if(!url)return;var title=prompt('Title:');if(!title)return;var match=url.match(/(?:youtu\.be\/|v=)([^#&?]{11})/);var youtubeId=match?match[1]:null;if(!youtubeId){alert('Invalid YouTube URL');return;}if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}firebase.firestore().collection('videos').add({title:title,artist:artist,youtubeId:youtubeId,releaseDate:new Date().toISOString()}).then(function(){loadVideos();});}
+</script>
+</body>
+</html>
