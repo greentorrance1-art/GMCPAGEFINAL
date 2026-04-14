@@ -1,39 +1,3 @@
-/* Great Minds Creating — styles.css
-   Supplemental styles for elements not covered by Tailwind inline classes.
-   Tailwind handles the heavy lifting; this file handles overrides, animations,
-   and component-specific states. */
-
-/* ============================================
-   ROOT OVERRIDES
-   ============================================ */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  min-height: 100dvh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  padding-bottom: 80px; /* space for mobile bottom nav */
-}
-
-@media (min-width: 768px) {
-  body {
-    padding-bottom: 72px; /* space for bottom sticky player on desktop */
-  }
-}
-
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
-
-.font-bebas {
   font-family: 'Bebas Neue', sans-serif;
 }
 
