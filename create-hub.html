@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Hub — Great Minds Creating</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Bebas+Neue&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","primary-container":"#ff6b35","on-primary":"#5d1900","on-primary-fixed":"#390c00","secondary-fixed":"#ffe16d","on-secondary-fixed":"#221b00","surface":"#131313","surface-container-lowest":"#0e0e0e","surface-container-low":"#1c1b1b","surface-container":"#201f1f","surface-container-high":"#2a2a2a","surface-container-highest":"#353534","background":"#131313","on-surface":"#e5e2e1","on-surface-variant":"#e1bfb5","outline":"#a98a80","outline-variant":"#594139","error":"#ffb4ab"},fontFamily:{"bebas":["Bebas Neue"],"body":["Manrope"],"label":["Manrope"],"headline":["Space Grotesk"]}}}}
+</script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  .text-glow{text-shadow:0 0 30px rgba(255,107,53,0.5)}
+  .admin-only{display:none!important}.admin-only.admin-visible{display:flex!important}
+  .btn-admin-inline{display:none!important}.btn-admin-inline.admin-visible{display:inline-flex!important}
+</style>
+</head>
+<body class="bg-background text-on-surface font-body pb-20 md:pb-0">
+
+<!-- NAVBAR -->
+<header class="bg-[#0E0E0E] border-b border-[#FFD700]/40 sticky top-0 z-40 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
+        <img src="assets/logos/logo-main.png" alt="GMC" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Bebas Neue;font-size:0.85rem;color:#0e0e0e\'>GMC</span>'"/>
+      </div>
+      <span class="font-headline tracking-[-0.04em] uppercase text-xl font-bold text-on-surface">GMC</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 font-label text-xs uppercase tracking-widest">
+      <a href="index.html" class="text-on-surface hover:text-primary transition-colors">Home</a>
+      <a href="jay-bando-baby.html" class="text-on-surface hover:text-primary transition-colors">Jay Bando Baby</a>
+      <a href="b-blazo.html" class="text-on-surface hover:text-primary transition-colors">B Blazo</a>
+      <a href="cassh-create.html" class="text-on-surface hover:text-primary transition-colors">casshcreate</a>
+      <a href="create-hub.html" class="text-primary border-b border-primary pb-0.5">Create Hub</a>
+      <a href="merch.html" class="text-on-surface hover:text-primary transition-colors">Merch</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <button id="loginBtn" onclick="openLoginModal()" class="bg-primary-container text-on-primary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-125 transition-all">Login</button>
+      <button id="logoutBtn" onclick="handleLogout()" style="display:none" class="border border-outline text-on-surface px-4 py-2 font-bold text-xs uppercase tracking-widest hover:border-primary hover:text-primary transition-all">Logout</button>
+      <button onclick="toggleMobileMenu()" class="md:hidden text-on-surface"><span class="material-symbols-outlined">menu</span></button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-surface-container-lowest border-t border-outline-variant/20 px-4 pb-4">
+    <div class="flex flex-col gap-4 pt-4 font-label text-xs uppercase tracking-widest">
+      <a href="index.html" class="text-on-surface">Home</a>
+      <a href="jay-bando-baby.html" class="text-on-surface">Jay Bando Baby</a>
+      <a href="b-blazo.html" class="text-on-surface">B Blazo</a>
+      <a href="cassh-create.html" class="text-on-surface">casshcreate</a>
+      <a href="create-hub.html" class="text-primary">Create Hub</a>
+      <a href="merch.html" class="text-on-surface">Merch</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="py-24 px-6 md:px-16 bg-surface-container-lowest">
+  <div class="max-w-7xl mx-auto">
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-4">GMC Creative Services</p>
+    <h1 class="font-bebas text-7xl md:text-9xl leading-none text-on-surface text-glow mb-6">Create Hub</h1>
+    <p class="font-body text-on-surface-variant text-xl max-w-2xl leading-relaxed">Professional creative services — music video production, photography, content creation, and more. Brought to you by Great Minds Creating.</p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="py-20 px-6 md:px-12 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-12">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">What We Offer</p>
+      <h2 class="font-bebas text-5xl text-on-surface">Creative Services</h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-surface-container p-6 border border-outline-variant/20 hover:border-primary-container/50 transition-all group cursor-pointer" onclick="scrollToBooking('Music Video Production')">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4 block">videocam</span>
+        <h3 class="font-bebas text-2xl text-on-surface mb-2">Music Video Production</h3>
+        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Cinematic quality music videos from concept to final cut.</p>
+        <p class="font-label text-xs uppercase tracking-widest text-primary mt-4 group-hover:translate-x-1 transition-transform">Book Now →</p>
+      </div>
+      <div class="bg-surface-container p-6 border border-outline-variant/20 hover:border-primary-container/50 transition-all group cursor-pointer" onclick="scrollToBooking('Photography')">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4 block">photo_camera</span>
+        <h3 class="font-bebas text-2xl text-on-surface mb-2">Photography</h3>
+        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Promo shots, album covers, lifestyle content, and portfolios.</p>
+        <p class="font-label text-xs uppercase tracking-widest text-primary mt-4 group-hover:translate-x-1 transition-transform">Book Now →</p>
+      </div>
+      <div class="bg-surface-container p-6 border border-outline-variant/20 hover:border-primary-container/50 transition-all group cursor-pointer" onclick="scrollToBooking('Content Creation')">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4 block">smartphone</span>
+        <h3 class="font-bebas text-2xl text-on-surface mb-2">Content Creation</h3>
+        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Social media content and short-form video tailored for your brand.</p>
+        <p class="font-label text-xs uppercase tracking-widest text-primary mt-4 group-hover:translate-x-1 transition-transform">Book Now →</p>
+      </div>
+      <div class="bg-surface-container p-6 border border-outline-variant/20 hover:border-primary-container/50 transition-all group cursor-pointer" onclick="scrollToBooking('Editing')">
+        <span class="material-symbols-outlined text-3xl text-primary mb-4 block">movie_edit</span>
+        <h3 class="font-bebas text-2xl text-on-surface mb-2">Editing</h3>
+        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Professional video and photo editing to make your content stand out.</p>
+        <p class="font-label text-xs uppercase tracking-widest text-primary mt-4 group-hover:translate-x-1 transition-transform">Book Now →</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEDIA LIBRARY -->
+<section class="py-20 px-6 md:px-12 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-12">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Our Work</p>
+      <h2 class="font-bebas text-5xl text-on-surface">Media Library</h2>
+    </div>
+    <div class="flex gap-3 mb-8 flex-wrap">
+      <button onclick="filterMedia('all')" class="media-filter active-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-primary-container text-primary-container">All</button>
+      <button onclick="filterMedia('music-videos')" class="media-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">Music Videos</button>
+      <button onclick="filterMedia('bts')" class="media-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">Behind the Scenes</button>
+      <button onclick="filterMedia('studio')" class="media-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">Studio Sessions</button>
+    </div>
+    <div id="mediaGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="media-item aspect-video bg-surface-container-high rounded-xl relative group overflow-hidden" data-category="music-videos">
+        <div class="absolute inset-0 flex items-center justify-center z-10">
+          <a href="https://youtube.com/@greatmindscreating" target="_blank" class="w-14 h-14 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings:'FILL' 1;">play_circle</span>
+          </a>
+        </div>
+        <div class="absolute bottom-4 left-4 z-10"><p class="font-bebas text-lg text-on-surface">Latest Music Video</p></div>
+      </div>
+      <div class="media-item aspect-video bg-surface-container rounded-xl relative group overflow-hidden" data-category="bts">
+        <div class="absolute inset-0 flex items-center justify-center z-10"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30">photo_camera</span></div>
+        <div class="absolute bottom-4 left-4 z-10"><p class="font-bebas text-lg text-on-surface">Studio Session</p></div>
+      </div>
+      <div class="media-item aspect-video bg-surface-container-high rounded-xl relative group overflow-hidden" data-category="studio">
+        <div class="absolute inset-0 flex items-center justify-center z-10"><span class="material-symbols-outlined text-4xl text-on-surface-variant/30">music_note</span></div>
+        <div class="absolute bottom-4 left-4 z-10"><p class="font-bebas text-lg text-on-surface">Recording Session</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="py-20 px-6 md:px-12 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-12">
+      <div>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Live</p>
+        <h2 class="font-bebas text-5xl text-on-surface">Upcoming Events</h2>
+      </div>
+    </div>
+    <div id="eventsGrid" class="space-y-4">
+      <div class="bg-surface-container p-6 border border-outline-variant/20 flex gap-6 items-start">
+        <div class="text-center flex-shrink-0 w-16">
+          <p class="font-label text-xs uppercase tracking-widest text-primary">TBA</p>
+          <p class="font-bebas text-4xl text-on-surface">--</p>
+        </div>
+        <div>
+          <h3 class="font-bebas text-2xl text-on-surface mb-1">Events Coming Soon</h3>
+          <p class="font-body text-sm text-on-surface-variant">Stay tuned for upcoming shows and appearances from Great Minds Creating.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section id="bookingSection" class="py-20 px-6 md:px-12 bg-surface">
+  <div class="max-w-3xl mx-auto">
+    <div class="mb-12">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Get Started</p>
+      <h2 class="font-bebas text-5xl text-on-surface">Book a Service</h2>
+    </div>
+    <div id="bookingSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-sm uppercase tracking-widest px-6 py-4 mb-6 rounded">
+      Request submitted! We'll be in touch soon.
+    </div>
+    <form id="bookingForm" onsubmit="handleBooking(event)" class="space-y-4">
+      <div class="grid md:grid-cols-2 gap-4">
+        <input id="bookingName" type="text" required placeholder="Full Name" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+        <input id="bookingEmail" type="email" required placeholder="Email" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      </div>
+      <input id="bookingPhone" type="tel" required placeholder="Phone Number" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <select id="bookingService" required class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors">
+        <option value="">Select Service</option>
+        <option value="Music Video Production">Music Video Production</option>
+        <option value="Photography">Photography</option>
+        <option value="Content Creation">Content Creation</option>
+        <option value="Editing">Editing</option>
+      </select>
+      <textarea id="bookingDescription" required placeholder="Project Description" rows="5" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+      <input id="bookingDate" type="date" required class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-4 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Submit Request</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- MOBILE NAV -->
+<nav class="md:hidden bg-[#0E0E0E]/80 backdrop-blur-xl border-t border-outline-variant/20 fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-4">
+  <a href="index.html" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">home</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Home</span></a>
+  <a href="cassh-create.html" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">mic</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Artists</span></a>
+  <a href="create-hub.html" class="flex flex-col items-center text-primary"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">videocam</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Hub</span></a>
+  <a href="merch.html" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">shopping_bag</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Merch</span></a>
+  <button onclick="openLoginModal()" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">account_circle</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Login</span></button>
+</nav>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
+  <div class="relative bg-surface-container border border-outline-variant/40 p-8 w-full max-w-sm mx-4">
+    <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Admin Access</p>
+    <h2 class="font-bebas text-4xl text-on-surface mb-6">Login</h2>
+    <div id="loginError" class="hidden bg-error/10 border border-error/30 text-error text-xs font-label px-3 py-2 mb-4"></div>
+    <form onsubmit="handleLogin(event)" class="space-y-4">
+      <input id="loginEmail" type="email" required placeholder="Email" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <input id="loginPassword" type="password" required placeholder="Password" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <button type="submit" id="loginSubmitBtn" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Login</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="config/firebase-config.js"></script>
+<script>
+var currentUser=null;
+document.addEventListener('DOMContentLoaded',function(){
+  if(typeof firebase!=='undefined'&&firebase.auth){firebase.auth().onAuthStateChanged(function(u){currentUser=u;if(u){document.getElementById('loginBtn').style.display='none';document.getElementById('logoutBtn').style.display='inline-block';}else{document.getElementById('loginBtn').style.display='inline-block';document.getElementById('logoutBtn').style.display='none';}});}
+  loadEvents();
+});
+function loadEvents(){
+  if(typeof firebase==='undefined'||!firebase.firestore)return;
+  firebase.firestore().collection('events').orderBy('date','asc').get().then(function(snap){
+    if(snap.empty)return;
+    var grid=document.getElementById('eventsGrid');grid.innerHTML='';
+    snap.forEach(function(doc){var e=doc.data();var d=new Date(e.date);var div=document.createElement('div');
+      div.className='bg-surface-container p-6 border border-outline-variant/20 flex gap-6 items-start';
+      div.innerHTML='<div class="text-center flex-shrink-0 w-16"><p class="font-label text-xs uppercase tracking-widest text-primary">'+d.toLocaleString('default',{month:'short'})+'</p><p class="font-bebas text-4xl text-on-surface">'+d.getDate()+'</p></div><div><h3 class="font-bebas text-2xl text-on-surface mb-1">'+e.title+'</h3><p class="font-body text-sm text-on-surface-variant mb-3">'+e.location+'</p>'+(e.ticketLink?'<a href="'+e.ticketLink+'" target="_blank" class="font-label text-xs uppercase tracking-widest text-primary hover:underline">RSVP / Tickets →</a>':'')+'</div>';
+      grid.appendChild(div);
+    });
+  }).catch(function(){});
+}
+function filterMedia(cat){
+  document.querySelectorAll('.media-filter').forEach(function(b){b.classList.remove('active-filter','border-primary-container','text-primary-container');b.classList.add('border-outline-variant/40','text-on-surface-variant');});
+  event.target.classList.add('active-filter','border-primary-container','text-primary-container');event.target.classList.remove('border-outline-variant/40','text-on-surface-variant');
+  document.querySelectorAll('.media-item').forEach(function(el){el.style.display=(cat==='all'||el.dataset.category===cat)?'block':'none';});
+}
+function scrollToBooking(service){
+  document.getElementById('bookingSection').scrollIntoView({behavior:'smooth'});
+  setTimeout(function(){var s=document.getElementById('bookingService');if(s)s.value=service;},600);
+}
+function handleBooking(e){
+  e.preventDefault();
+  var data={name:document.getElementById('bookingName').value,email:document.getElementById('bookingEmail').value,phone:document.getElementById('bookingPhone').value,service:document.getElementById('bookingService').value,description:document.getElementById('bookingDescription').value,preferredDate:document.getElementById('bookingDate').value,submittedAt:new Date().toISOString(),status:'pending'};
+  if(typeof firebase!=='undefined'&&firebase.firestore){firebase.firestore().collection('bookings').add(data).then(function(){document.getElementById('bookingSuccess').classList.remove('hidden');document.getElementById('bookingForm').reset();}).catch(function(){alert('Error submitting. Please try again.');});}
+  else{document.getElementById('bookingSuccess').classList.remove('hidden');document.getElementById('bookingForm').reset();}
+}
+function openLoginModal(){document.getElementById('loginModal').classList.remove('hidden');}
+function closeLoginModal(){document.getElementById('loginModal').classList.add('hidden');}
+function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('hidden');}
+function handleLogout(){if(typeof firebase!=='undefined'&&firebase.auth)firebase.auth().signOut();}
+function handleLogin(e){e.preventDefault();var email=document.getElementById('loginEmail').value;var pw=document.getElementById('loginPassword').value;var btn=document.getElementById('loginSubmitBtn');var err=document.getElementById('loginError');if(typeof firebase==='undefined'||!firebase.auth){err.textContent='Firebase not configured.';err.classList.remove('hidden');return;}btn.textContent='Logging in...';btn.disabled=true;firebase.auth().signInWithEmailAndPassword(email,pw).then(function(){closeLoginModal();}).catch(function(error){err.textContent=error.message;err.classList.remove('hidden');btn.textContent='Login';btn.disabled=false;});}
+</script>
+</body>
+</html>
