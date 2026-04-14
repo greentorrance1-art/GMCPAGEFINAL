@@ -1019,4 +1019,989 @@ function castVote(pollId, option) {
 }
 </script>
 </body>
+</html>        "outline": "#a98a80",
+        "outline-variant": "#594139",
+        "tertiary-fixed": "#e5e2e1",
+        "tertiary-container": "#9b9999",
+        "inverse-surface": "#e5e2e1",
+        "error": "#ffb4ab"
+      },
+      fontFamily: {
+        "headline": ["Space Grotesk"],
+        "bebas": ["Bebas Neue"],
+        "body": ["Manrope"],
+        "label": ["Manrope"]
+      },
+      borderRadius: {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .text-glow { text-shadow: 0 0 30px rgba(255,107,53,0.5); }
+  .glass-panel {
+    background: rgba(19,19,19,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  body { min-height: 100dvh; }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+  .admin-only { display: none !important; }
+  .admin-only.admin-visible { display: flex !important; }
+  .btn-admin-inline { display: none !important; }
+  .btn-admin-inline.admin-visible { display: inline-flex !important; }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .skeleton {
+    background: linear-gradient(90deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s infinite;
+    border-radius: 8px;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeInUp 0.6s ease forwards; }
+  .poll-option {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .poll-option:hover { background: rgba(255,107,53,0.15); border-color: #ff6b35; }
+  .poll-option.voted { background: rgba(255,107,53,0.2); border-color: #ff6b35; cursor: default; }
+  .poll-option.voted .poll-bar { background: #ff6b35; }
+  .poll-bar { background: #2a2a2a; height: 3px; transition: width 0.8s ease; }
+  .slide { display: none; }
+  .slide.active { display: flex; }
+  .progress-fill { width: 0%; transition: width 0.1s linear; }
+  .progress-fill.playing { background: linear-gradient(90deg, #ff6b35, #ffd700); }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-white">
+
+<!-- ===================== TOP MUSIC PLAYER ===================== -->
+<div id="topPlayer" class="bg-surface-container-lowest border-b border-[#FFD700]/30 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center gap-4">
+    <div id="topPlayerCover" class="w-10 h-10 rounded bg-surface-container-high flex-shrink-0 overflow-hidden skeleton"></div>
+    <div class="flex-1 min-w-0">
+      <p id="topPlayerTitle" class="font-label text-xs uppercase tracking-widest text-primary truncate">Loading...</p>
+      <p id="topPlayerArtist" class="font-bebas text-sm text-on-surface truncate">Great Minds Creating</p>
+    </div>
+    <a id="topPlayerSpotifyLink" href="https://open.spotify.com" target="_blank"
+       class="flex items-center gap-2 bg-[#1DB954] text-black text-xs font-bold px-3 py-1.5 rounded hover:brightness-110 transition-all flex-shrink-0">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      Play on Spotify
+    </a>
+  </div>
+</div>
+
+<!-- ===================== NAVBAR ===================== -->
+<header class="bg-[#0E0E0E] border-b border-[#FFD700]/40 sticky top-[52px] z-40 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
+        <img id="navLogo" src="assets/logos/logo-main.png" alt="GMC"
+             class="w-full h-full object-cover"
+             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'font-bebas text-sm text-[#0E0E0E]\'>GMC</span>'"/>
+      </div>
+      <span class="font-headline tracking-[-0.04em] uppercase text-xl font-bold text-on-surface">GMC</span>
+    </div>
+    <nav class="hidden md:flex items-center gap-6 font-label text-xs uppercase tracking-widest">
+      <a href="index.html" class="text-primary border-b border-primary pb-0.5">Home</a>
+      <a href="jay-bando-baby.html" class="text-on-surface hover:text-primary transition-colors">Jay Bando Baby</a>
+      <a href="b-blazo.html" class="text-on-surface hover:text-primary transition-colors">B Blazo</a>
+      <a href="cassh-create.html" class="text-on-surface hover:text-primary transition-colors">casshcreate</a>
+      <a href="create-hub.html" class="text-on-surface hover:text-primary transition-colors">Create Hub</a>
+      <a href="merch.html" class="text-on-surface hover:text-primary transition-colors">Merch</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <button id="loginBtn" onclick="openLoginModal()"
+              class="bg-primary-container text-on-primary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-125 transition-all">
+        Login
+      </button>
+      <button id="logoutBtn" onclick="handleLogout()" style="display:none"
+              class="border border-outline text-on-surface px-4 py-2 font-bold text-xs uppercase tracking-widest hover:border-primary hover:text-primary transition-all">
+        Logout
+      </button>
+      <a href="admin-dashboard.html" id="adminDashLink"
+         class="admin-only items-center gap-1 border border-secondary-fixed text-secondary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:bg-secondary-fixed hover:text-on-secondary-fixed transition-all">
+        <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1;">shield</span>
+        Admin
+      </a>
+      <!-- Mobile Hamburger -->
+      <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden text-on-surface">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-surface-container-lowest border-t border-outline-variant/20 px-4 pb-4">
+    <div class="flex flex-col gap-4 pt-4 font-label text-xs uppercase tracking-widest">
+      <a href="index.html" class="text-primary">Home</a>
+      <a href="jay-bando-baby.html" class="text-on-surface hover:text-primary transition-colors">Jay Bando Baby</a>
+      <a href="b-blazo.html" class="text-on-surface hover:text-primary transition-colors">B Blazo</a>
+      <a href="cassh-create.html" class="text-on-surface hover:text-primary transition-colors">casshcreate</a>
+      <a href="create-hub.html" class="text-on-surface hover:text-primary transition-colors">Create Hub</a>
+      <a href="merch.html" class="text-on-surface hover:text-primary transition-colors">Merch</a>
+    </div>
+  </div>
+</header>
+
+<main class="min-h-screen pb-24 md:pb-0">
+
+<!-- ===================== HERO SLIDER ===================== -->
+<section class="relative w-full h-[70vh] min-h-[480px] overflow-hidden bg-surface-container-lowest">
+  <!-- Slide 1: Latest Drop -->
+  <div class="slide active absolute inset-0 items-center justify-start px-8 md:px-16"
+       style="background: linear-gradient(135deg, #0e0e0e 0%, #1a0800 60%, #0e0e0e 100%);">
+    <div class="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+    <div class="relative z-10 max-w-2xl">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-4">Latest Drop</p>
+      <h1 id="heroTitle" class="font-bebas text-7xl md:text-9xl leading-none text-on-surface text-glow mb-4">New Release</h1>
+      <p id="heroSubtitle" class="font-body text-on-surface-variant text-lg mb-8 max-w-md leading-relaxed">
+        The definitive audio experience from Great Minds Creating — raw energy, unfiltered storytelling.
+      </p>
+      <div class="flex gap-4 flex-wrap">
+        <a id="heroListenBtn" href="https://open.spotify.com" target="_blank"
+           class="bg-primary-container text-on-primary-fixed px-8 py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all shadow-[0_0_20px_rgba(255,107,53,0.3)]">
+          Listen Now
+        </a>
+        <button onclick="document.getElementById('videoSection').scrollIntoView({behavior:'smooth'})"
+                class="border border-outline-variant text-on-surface px-8 py-3 font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-all">
+          Watch Video
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Slide 2: New Music Video -->
+  <div class="slide absolute inset-0 items-center justify-center text-center"
+       style="background: linear-gradient(180deg, #0e0e0e 0%, #1a0a00 50%, #0e0e0e 100%);">
+    <div class="relative z-10">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-4">Visual</p>
+      <h1 class="font-bebas text-7xl md:text-9xl leading-none text-on-surface text-glow mb-4">New Music<br>Video</h1>
+      <p class="font-body text-on-surface-variant text-lg mb-8">Watch the visuals. Feel the energy.</p>
+      <button onclick="document.getElementById('videoSection').scrollIntoView({behavior:'smooth'})"
+              class="bg-primary-container text-on-primary-fixed px-8 py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all shadow-[0_0_20px_rgba(255,107,53,0.3)]">
+        Watch Now
+      </button>
+    </div>
+  </div>
+  <!-- Slide 3: Merch Drop -->
+  <div class="slide absolute inset-0 items-center justify-end px-8 md:px-16"
+       style="background: linear-gradient(225deg, #0e0e0e 0%, #1a0800 60%, #0e0e0e 100%);">
+    <div class="relative z-10 max-w-xl text-right">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed mb-4">New Collection</p>
+      <h1 class="font-bebas text-7xl md:text-9xl leading-none text-on-surface mb-4">Merch Drop</h1>
+      <p class="font-body text-on-surface-variant text-lg mb-8">Fresh gear. Limited edition. Official GMC collection.</p>
+      <a href="merch.html"
+         class="inline-block bg-secondary-fixed text-on-secondary-fixed px-8 py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all">
+        Shop Now
+      </a>
+    </div>
+  </div>
+  <!-- Slider Controls -->
+  <button onclick="shiftSlide(-1)"
+          class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full glass-panel border border-outline-variant/40 flex items-center justify-center hover:border-primary transition-all">
+    <span class="material-symbols-outlined text-on-surface">chevron_left</span>
+  </button>
+  <button onclick="shiftSlide(1)"
+          class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full glass-panel border border-outline-variant/40 flex items-center justify-center hover:border-primary transition-all">
+    <span class="material-symbols-outlined text-on-surface">chevron_right</span>
+  </button>
+  <div id="sliderDots" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2"></div>
+</section>
+
+<!-- ===================== RECENT DROPS ===================== -->
+<section class="py-24 px-6 md:px-12 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-16">
+      <div>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">New Music From Available Now</p>
+        <h2 class="font-bebas text-5xl md:text-6xl text-on-surface uppercase tracking-tight">Recent Drops</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">View Archive</a>
+        <button onclick="window.location.href='admin-dashboard.html'"
+                class="btn-admin-inline items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
+          <span class="material-symbols-outlined text-sm">add</span>
+          Add Drop
+        </button>
+      </div>
+    </div>
+    <div id="latestDrops" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Skeleton loaders while Firebase loads -->
+      <div class="skeleton h-48 rounded-xl"></div>
+      <div class="skeleton h-48 rounded-xl"></div>
+      <div class="skeleton h-48 rounded-xl"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAN POLLS ===================== -->
+<section class="py-24 px-6 md:px-12 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-16">
+      <div>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Fan Driven</p>
+        <h2 class="font-bebas text-5xl md:text-6xl text-on-surface uppercase tracking-tight">Fan Polls</h2>
+      </div>
+      <button onclick="window.location.href='admin-dashboard.html'"
+              class="btn-admin-inline items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
+        <span class="material-symbols-outlined text-sm">add</span>
+        Create Poll
+      </button>
+    </div>
+    <div id="pollsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="skeleton h-40 rounded-xl"></div>
+      <div class="skeleton h-40 rounded-xl"></div>
+      <div class="skeleton h-40 rounded-xl"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INSTAGRAM HIGHLIGHTS ===================== -->
+<section class="py-24 px-6 md:px-12 bg-surface-container-low overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-4 mb-12">
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+      <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">The Feed</h2>
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+    </div>
+    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+      <a href="https://instagram.com/greatmindscreating" target="_blank"
+         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20">
+          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@greatmindscreating</p>
+        </div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
+        </div>
+      </a>
+      <a href="https://instagram.com/jaybandobaby" target="_blank"
+         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20">
+          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@jaybandobaby</p>
+        </div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
+        </div>
+      </a>
+      <a href="https://instagram.com/bblazo" target="_blank"
+         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20">
+          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@bblazo</p>
+        </div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
+        </div>
+      </a>
+      <a href="https://instagram.com/casshcreate" target="_blank"
+         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
+        <div class="absolute bottom-3 left-3 z-20">
+          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@casshcreate</p>
+        </div>
+        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIDEO SECTION ===================== -->
+<section id="videoSection" class="py-24 px-6 md:px-12 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center gap-4 mb-12">
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+      <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">Visual Narrative</h2>
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+    </div>
+    <div class="aspect-video bg-surface-container-high rounded-xl overflow-hidden relative group">
+      <div class="absolute inset-0 flex items-center justify-center z-10">
+        <a href="https://youtube.com/@greatmindscreating" target="_blank"
+           class="w-20 h-20 rounded-full glass-panel border border-outline-variant flex items-center justify-center group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings:'FILL' 1;">play_circle</span>
+        </a>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/60 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 z-10">
+        <p class="font-label text-xs uppercase tracking-widest text-primary mb-1">Latest Visual</p>
+        <p class="font-bebas text-3xl text-on-surface">Great Minds Creating — Official</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MERCH PREVIEW ===================== -->
+<section class="py-24 px-6 md:px-12 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-16">
+      <div>
+        <p class="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed mb-2">Archive 001</p>
+        <h2 class="font-bebas text-5xl md:text-6xl text-on-surface uppercase tracking-tight">Latest Merch</h2>
+        <p class="font-body text-on-surface-variant mt-2">Limited edition premium heavyweight hoodies.<br>Designed for the creators.</p>
+      </div>
+      <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+        Shop All Merch →
+      </a>
+    </div>
+    <div id="merchPreview" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Merch cards: loaded from Firestore or fallback -->
+      <div class="bg-surface-container group overflow-hidden relative">
+        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-container-highest"></div>
+          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 relative z-10">checkroom</span>
+          <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-surface-container to-transparent"></div>
+        </div>
+        <div class="p-4">
+          <p class="font-bebas text-xl text-on-surface">Vanguard Hoodie</p>
+          <p class="font-label text-sm text-on-surface-variant mt-1">Premium Heavyweight</p>
+          <div class="flex justify-between items-center mt-3">
+            <span class="font-bebas text-2xl text-primary">$68.00</span>
+            <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Shop →</a>
+          </div>
+        </div>
+      </div>
+      <div class="bg-surface-container group overflow-hidden relative">
+        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-container-highest"></div>
+          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 relative z-10">style</span>
+          <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-surface-container to-transparent"></div>
+        </div>
+        <div class="p-4">
+          <p class="font-bebas text-xl text-on-surface">Pulse Graphic Tee</p>
+          <p class="font-label text-sm text-on-surface-variant mt-1">100% Cotton</p>
+          <div class="flex justify-between items-center mt-3">
+            <span class="font-bebas text-2xl text-primary">$34.00</span>
+            <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Shop →</a>
+          </div>
+        </div>
+      </div>
+      <div class="bg-surface-container group overflow-hidden relative md:col-span-2 lg:col-span-1">
+        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-container-highest"></div>
+          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 relative z-10">diamond</span>
+          <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-surface-container to-transparent"></div>
+        </div>
+        <div class="p-4">
+          <p class="font-bebas text-xl text-on-surface">GMC Snapback</p>
+          <p class="font-label text-sm text-on-surface-variant mt-1">Structured 6-Panel</p>
+          <div class="flex justify-between items-center mt-3">
+            <span class="font-bebas text-2xl text-secondary-fixed">$28.00</span>
+            <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Shop →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ARTIST CARDS ===================== -->
+<section class="py-24 px-6 md:px-12 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16">
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">The Collective</p>
+      <h2 class="font-bebas text-5xl md:text-6xl text-on-surface uppercase tracking-tight">The Artists</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-px bg-outline-variant/20">
+      <a href="cassh-create.html" class="bg-surface-container-low group relative overflow-hidden block">
+        <div class="aspect-[3/4] bg-surface-container-high relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent z-10"></div>
+          <div class="w-full h-full bg-gradient-to-br from-[#1a0800] to-surface-container-high group-hover:scale-105 transition-transform duration-700"></div>
+          <div class="absolute bottom-0 left-0 p-6 z-20">
+            <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-1">Artist</p>
+            <h3 class="font-bebas text-5xl text-on-surface group-hover:text-glow transition-all">casshcreate</h3>
+          </div>
+        </div>
+      </a>
+      <a href="b-blazo.html" class="bg-surface-container-low group relative overflow-hidden block">
+        <div class="aspect-[3/4] bg-surface-container-high relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent z-10"></div>
+          <div class="w-full h-full bg-gradient-to-br from-[#0e0e0e] to-surface-container group-hover:scale-105 transition-transform duration-700"></div>
+          <div class="absolute bottom-0 left-0 p-6 z-20">
+            <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-1">Artist</p>
+            <h3 class="font-bebas text-5xl text-on-surface group-hover:text-glow transition-all">B Blazo</h3>
+          </div>
+        </div>
+      </a>
+      <a href="jay-bando-baby.html" class="bg-surface-container-low group relative overflow-hidden block">
+        <div class="aspect-[3/4] bg-surface-container-high relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent z-10"></div>
+          <div class="w-full h-full bg-gradient-to-br from-[#0a1200] to-surface-container group-hover:scale-105 transition-transform duration-700"></div>
+          <div class="absolute bottom-0 left-0 p-6 z-20">
+            <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-1">Artist</p>
+            <h3 class="font-bebas text-5xl text-on-surface group-hover:text-glow transition-all">Jay Bando Baby</h3>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== BOTTOM STICKY PLAYER ===================== -->
+<div id="bottomPlayer"
+     class="fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-outline-variant/30 md:block hidden">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center gap-6">
+    <div class="flex items-center gap-4 flex-1 min-w-0">
+      <div id="bottomPlayerCover" class="w-10 h-10 rounded bg-surface-container-high flex-shrink-0 skeleton"></div>
+      <div class="min-w-0">
+        <p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Now Playing</p>
+        <p id="bottomPlayerTitle" class="font-bebas text-base text-on-surface truncate">Great Minds Creating</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 flex-2">
+      <button id="bottomPlayBtn" onclick="handlePlayerClick()"
+              class="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center hover:brightness-125 transition-all flex-shrink-0">
+        <span class="material-symbols-outlined text-on-primary-fixed text-xl" style="font-variation-settings:'FILL' 1;">play_circle</span>
+      </button>
+      <div class="flex-1 h-1 bg-surface-container-highest rounded-full overflow-hidden min-w-[120px]">
+        <div id="progressFill" class="h-full progress-fill rounded-full"></div>
+      </div>
+    </div>
+    <a id="bottomSpotifyLink" href="https://open.spotify.com" target="_blank"
+       class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex-shrink-0">
+      Open Spotify
+    </a>
+  </div>
+</div>
+
+<!-- ===================== MOBILE BOTTOM NAV ===================== -->
+<nav class="md:hidden bg-[#0E0E0E]/80 backdrop-blur-xl border-t border-outline-variant/20 fixed bottom-0 w-full z-50 flex justify-around items-center h-16 px-4">
+  <a href="index.html" class="flex flex-col items-center text-primary">
+    <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">home</span>
+    <span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Home</span>
+  </a>
+  <a href="cassh-create.html" class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors">
+    <span class="material-symbols-outlined text-xl">mic</span>
+    <span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Artists</span>
+  </a>
+  <a href="create-hub.html" class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors">
+    <span class="material-symbols-outlined text-xl">videocam</span>
+    <span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Hub</span>
+  </a>
+  <a href="merch.html" class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors">
+    <span class="material-symbols-outlined text-xl">shopping_bag</span>
+    <span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Merch</span>
+  </a>
+  <button onclick="openLoginModal()" id="mobileProfileBtn" class="flex flex-col items-center text-on-surface-variant hover:text-primary transition-colors">
+    <span class="material-symbols-outlined text-xl">account_circle</span>
+    <span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Login</span>
+  </button>
+</nav>
+
+<!-- ===================== LOGIN MODAL ===================== -->
+<div id="loginModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
+  <div class="relative bg-surface-container border border-outline-variant/40 p-8 w-full max-w-sm mx-4 shadow-[0_0_60px_rgba(0,0,0,0.6)]">
+    <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface transition-colors">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Admin Access</p>
+    <h2 class="font-bebas text-4xl text-on-surface mb-6">Login</h2>
+    <div id="loginError" class="hidden bg-error/10 border border-error/30 text-error text-xs font-label uppercase tracking-widest px-3 py-2 mb-4"></div>
+    <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+      <div>
+        <label class="font-label text-xs uppercase tracking-widest text-on-surface-variant block mb-2">Email</label>
+        <input id="loginEmail" type="email" required placeholder="your@email.com"
+               class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors placeholder-on-surface-variant/40"/>
+      </div>
+      <div>
+        <label class="font-label text-xs uppercase tracking-widest text-on-surface-variant block mb-2">Password</label>
+        <input id="loginPassword" type="password" required placeholder="••••••••"
+               class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors placeholder-on-surface-variant/40"/>
+      </div>
+      <button type="submit" id="loginSubmitBtn"
+              class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all mt-2">
+        Login
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== FAN SIGNUP MODAL ===================== -->
+<div id="fanSignupModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeFanModal()"></div>
+  <div class="relative bg-surface-container border border-outline-variant/40 p-8 w-full max-w-sm mx-4 shadow-[0_0_60px_rgba(0,0,0,0.6)]">
+    <button onclick="closeFanModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface transition-colors">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed mb-2">Inner Circle</p>
+    <h2 class="font-bebas text-4xl text-on-surface mb-2">Join The<br>Collective</h2>
+    <p class="font-body text-xs text-on-surface-variant mb-6">Be the first to discover limited drops and exclusive artist collaborations.</p>
+    <form id="fanSignupForm" onsubmit="handleFanSignup(event)" class="space-y-3">
+      <input id="fanName" type="text" required placeholder="Full Name"
+             class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors placeholder-on-surface-variant/40"/>
+      <input id="fanPhone" type="tel" placeholder="Phone Number"
+             class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors placeholder-on-surface-variant/40"/>
+      <select id="fanFavoriteArtist" required
+              class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors">
+        <option value="">Select Your Primary Artist</option>
+        <option value="casshcreate">casshcreate</option>
+        <option value="B Blazo">B Blazo</option>
+        <option value="Jay Bando Baby">Jay Bando Baby</option>
+      </select>
+      <button type="submit"
+              class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">
+        Access The Provoke
+      </button>
+      <button type="button" onclick="closeFanModal()"
+              class="w-full text-on-surface-variant/50 text-xs font-label uppercase tracking-widest py-2 hover:text-on-surface-variant transition-colors">
+        Skip
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Firebase: add CDN scripts here when deploying to production with firebase-config.js -->
+<script>
+// ============================================
+// GMC — INLINE APP SCRIPT
+// All functions defined globally so inline
+// onclick attributes always resolve.
+// ============================================
+
+// ADMIN CONFIG
+var ADMIN_USERS = {
+  'torrancegreen22@yahoo.com': { role: 'super_admin', access: ['all'] },
+  'jaybandz635@gmail.com':     { role: 'artist_admin', access: ['Jay Bando Baby'] },
+  'beats4bblazo@gmail.com':    { role: 'artist_admin', access: ['B Blazo'] }
+};
+
+var currentUser = null;
+var currentUserRole = null;
+var currentSlide = 0;
+var playerSpotifyLink = 'https://open.spotify.com/album/6wUYfAEUysLOeR0uK5I7w1';
+var playerAudio = null;
+var playerIsPlaying = false;
+
+// SAMPLE POLLS — shown when Firebase has no polls yet
+var SAMPLE_POLLS = [
+  { id: 'poll1', question: 'Favorite Artist of the Month', options: ['casshcreate', 'B Blazo', 'Jay Bando Baby'], votes: {} },
+  { id: 'poll2', question: 'What Should Drop Next?', options: ['New EP', 'Music Video', 'Merch Drop', 'Live Event'], votes: {} },
+  { id: 'poll3', question: 'What Merch Drop Should Be Next?', options: ['Oversized Hoodies', 'Limited Vinyl Box', 'Track Jacket', 'Cargo Set'], votes: {} }
+];
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', function() {
+  initSlider();
+  setTopPlayerFallback();   // immediate — no firebase wait
+  setBottomPlayerFallback();
+  loadRecentDrops();
+  loadPolls();
+  checkFanSignupCookie();
+
+  // Wire Firebase auth if available
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().onAuthStateChanged(function(user) {
+      currentUser = user;
+      if (user) { handleUserLoggedIn(user); } else { handleUserLoggedOut(); }
+    });
+    // Try to enrich with Firestore data
+    loadTopPlayerFromFirestore();
+  }
+});
+
+// ---- FALLBACKS (immediate, no Firebase) ----
+function setTopPlayerFallback() {
+  var titleEl = document.getElementById('topPlayerTitle');
+  var artistEl = document.getElementById('topPlayerArtist');
+  var coverEl = document.getElementById('topPlayerCover');
+  var linkEl = document.getElementById('topPlayerSpotifyLink');
+  if (titleEl) titleEl.textContent = 'MIND > MATTER';
+  if (artistEl) artistEl.textContent = 'Great Minds Creating';
+  if (coverEl) coverEl.classList.remove('skeleton');
+  if (linkEl) linkEl.href = playerSpotifyLink;
+}
+
+function setBottomPlayerFallback() {
+  var titleEl = document.getElementById('bottomPlayerTitle');
+  var coverEl = document.getElementById('bottomPlayerCover');
+  var linkEl = document.getElementById('bottomSpotifyLink');
+  if (titleEl) titleEl.textContent = 'Great Minds Creating — MIND > MATTER';
+  if (coverEl) coverEl.classList.remove('skeleton');
+  if (linkEl) linkEl.href = playerSpotifyLink;
+}
+
+// ---- FIREBASE TOP PLAYER ----
+function loadTopPlayerFromFirestore() {
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  firebase.firestore().collection('songs').orderBy('releaseDate', 'desc').limit(1).get()
+    .then(function(snap) {
+      if (snap.empty) return;
+      var r = snap.docs[0].data();
+      var titleEl = document.getElementById('topPlayerTitle');
+      var artistEl = document.getElementById('topPlayerArtist');
+      var coverEl = document.getElementById('topPlayerCover');
+      var linkEl = document.getElementById('topPlayerSpotifyLink');
+      var heroTitle = document.getElementById('heroTitle');
+      var heroSub = document.getElementById('heroSubtitle');
+      var heroBtn = document.getElementById('heroListenBtn');
+      var btmTitle = document.getElementById('bottomPlayerTitle');
+      var btmLink = document.getElementById('bottomSpotifyLink');
+
+      if (titleEl && r.title) titleEl.textContent = r.title;
+      if (artistEl && r.artist) artistEl.textContent = r.artist;
+      if (coverEl && r.coverImage) {
+        coverEl.classList.remove('skeleton');
+        coverEl.innerHTML = '<img src="' + r.coverImage + '" class="w-full h-full object-cover" alt="cover"/>';
+      }
+      if (r.spotifyLink) {
+        playerSpotifyLink = r.spotifyLink;
+        if (linkEl) linkEl.href = r.spotifyLink;
+        if (btmLink) btmLink.href = r.spotifyLink;
+      }
+      if (heroTitle && r.title) heroTitle.textContent = r.title.toUpperCase();
+      if (heroSub && r.artist) heroSub.textContent = 'The latest from ' + r.artist + '. Available now on all platforms.';
+      if (heroBtn && r.spotifyLink) heroBtn.href = r.spotifyLink;
+      if (btmTitle) btmTitle.textContent = (r.artist || 'GMC') + ' \u2014 ' + (r.title || 'Latest Drop');
+
+      if (r.audioUrl) {
+        playerAudio = new Audio(r.audioUrl);
+        playerAudio.addEventListener('timeupdate', updateProgressBar);
+        playerAudio.addEventListener('ended', function() {
+          playerIsPlaying = false;
+          updatePlayBtn(false);
+          var f = document.getElementById('progressFill');
+          if (f) f.style.width = '0%';
+        });
+      }
+    }).catch(function() {});
+}
+
+// ---- AUTH ----
+function handleUserLoggedIn(user) {
+  var email = user.email ? user.email.toLowerCase() : '';
+  var adminData = ADMIN_USERS[email];
+  var loginBtn = document.getElementById('loginBtn');
+  var logoutBtn = document.getElementById('logoutBtn');
+  if (loginBtn) loginBtn.style.display = 'none';
+  if (logoutBtn) logoutBtn.style.display = 'inline-block';
+  if (adminData) { currentUserRole = adminData.role; showAdminControls(); }
+}
+
+function handleUserLoggedOut() {
+  var loginBtn = document.getElementById('loginBtn');
+  var logoutBtn = document.getElementById('logoutBtn');
+  if (loginBtn) loginBtn.style.display = 'inline-block';
+  if (logoutBtn) logoutBtn.style.display = 'none';
+  currentUserRole = null;
+  hideAdminControls();
+}
+
+function showAdminControls() {
+  document.querySelectorAll('.admin-only').forEach(function(el) { el.classList.add('admin-visible'); });
+  document.querySelectorAll('.btn-admin-inline').forEach(function(el) { el.classList.add('admin-visible'); });
+}
+
+function hideAdminControls() {
+  document.querySelectorAll('.admin-only, .btn-admin-inline').forEach(function(el) { el.classList.remove('admin-visible'); });
+}
+
+// ---- LOGIN MODAL ----
+function openLoginModal() {
+  var m = document.getElementById('loginModal');
+  if (m) m.classList.remove('hidden');
+  var err = document.getElementById('loginError');
+  if (err) err.classList.add('hidden');
+}
+
+function closeLoginModal() {
+  var m = document.getElementById('loginModal');
+  if (m) m.classList.add('hidden');
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  var email = document.getElementById('loginEmail').value;
+  var password = document.getElementById('loginPassword').value;
+  var btn = document.getElementById('loginSubmitBtn');
+  var err = document.getElementById('loginError');
+
+  if (typeof firebase === 'undefined' || !firebase.auth) {
+    if (err) { err.textContent = 'Firebase not configured yet.'; err.classList.remove('hidden'); }
+    return;
+  }
+  if (btn) { btn.textContent = 'Logging in...'; btn.disabled = true; }
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(function() {
+      closeLoginModal();
+      document.getElementById('loginForm').reset();
+    })
+    .catch(function(error) {
+      if (err) { err.textContent = error.message; err.classList.remove('hidden'); }
+      if (btn) { btn.textContent = 'Login'; btn.disabled = false; }
+    });
+}
+
+function handleLogout() {
+  if (typeof firebase !== 'undefined' && firebase.auth) firebase.auth().signOut();
+}
+
+// ---- FAN SIGNUP MODAL ----
+function closeFanModal() {
+  var m = document.getElementById('fanSignupModal');
+  if (m) m.classList.add('hidden');
+  var d = new Date();
+  d.setTime(d.getTime() + 30 * 24 * 60 * 60 * 1000);
+  document.cookie = 'gmcFanSeen=true; expires=' + d.toUTCString() + '; path=/';
+}
+
+function checkFanSignupCookie() {
+  var inIframe = false;
+  try { inIframe = window.self !== window.top; } catch(e) { inIframe = true; }
+  if (inIframe) return;
+  if (document.cookie.indexOf('gmcFanSeen') === -1) {
+    setTimeout(function() {
+      var m = document.getElementById('fanSignupModal');
+      if (m) m.classList.remove('hidden');
+    }, 8000);
+  }
+}
+
+function handleFanSignup(e) {
+  e.preventDefault();
+  var data = {
+    name: document.getElementById('fanName').value,
+    phone: document.getElementById('fanPhone').value,
+    favoriteArtist: document.getElementById('fanFavoriteArtist').value,
+    signupDate: new Date().toISOString(),
+    type: 'fan'
+  };
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    firebase.firestore().collection('fans').add(data).catch(function() {});
+  }
+  closeFanModal();
+}
+
+// ---- MOBILE MENU ----
+function toggleMobileMenu() {
+  var m = document.getElementById('mobileMenu');
+  if (m) m.classList.toggle('hidden');
+}
+
+// ---- HERO SLIDER ----
+function initSlider() {
+  var slides = document.querySelectorAll('.slide');
+  var dotsContainer = document.getElementById('sliderDots');
+  if (!slides.length || !dotsContainer) return;
+  dotsContainer.innerHTML = '';
+  for (var i = 0; i < slides.length; i++) {
+    var dot = document.createElement('div');
+    dot.style.cssText = 'width:8px;height:8px;border-radius:50%;background:rgba(225,191,181,0.3);cursor:pointer;transition:all 0.3s';
+    dot.setAttribute('data-i', i);
+    dot.addEventListener('click', function() { goToSlide(parseInt(this.getAttribute('data-i'))); });
+    dotsContainer.appendChild(dot);
+  }
+  updateDots();
+  setInterval(function() { goToSlide((currentSlide + 1) % document.querySelectorAll('.slide').length); }, 5000);
+}
+
+function shiftSlide(dir) {
+  var total = document.querySelectorAll('.slide').length;
+  goToSlide((currentSlide + dir + total) % total);
+}
+
+function goToSlide(n) {
+  var slides = document.querySelectorAll('.slide');
+  slides[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  updateDots();
+}
+
+function updateDots() {
+  var dots = document.querySelectorAll('#sliderDots div');
+  dots.forEach(function(d, i) {
+    d.style.background = i === currentSlide ? '#ff6b35' : 'rgba(225,191,181,0.3)';
+    d.style.width = i === currentSlide ? '24px' : '8px';
+    d.style.borderRadius = i === currentSlide ? '4px' : '50%';
+  });
+}
+
+// ---- BOTTOM PLAYER ----
+function handlePlayerClick() {
+  if (playerAudio) {
+    if (playerIsPlaying) {
+      playerAudio.pause();
+      playerIsPlaying = false;
+      updatePlayBtn(false);
+    } else {
+      playerAudio.play().then(function() {
+        playerIsPlaying = true;
+        updatePlayBtn(true);
+      }).catch(function() { window.open(playerSpotifyLink, '_blank'); });
+    }
+  } else {
+    window.open(playerSpotifyLink, '_blank');
+  }
+}
+
+function updatePlayBtn(playing) {
+  var btn = document.getElementById('bottomPlayBtn');
+  if (!btn) return;
+  var icon = btn.querySelector('span');
+  if (icon) icon.textContent = playing ? 'pause_circle' : 'play_circle';
+  var fill = document.getElementById('progressFill');
+  if (fill) {
+    if (playing) fill.classList.add('playing');
+    else fill.classList.remove('playing');
+  }
+}
+
+function updateProgressBar() {
+  if (!playerAudio || !playerAudio.duration) return;
+  var pct = (playerAudio.currentTime / playerAudio.duration) * 100;
+  var fill = document.getElementById('progressFill');
+  if (fill) fill.style.width = pct + '%';
+}
+
+// ---- RECENT DROPS ----
+function loadRecentDrops() {
+  var container = document.getElementById('latestDrops');
+  if (!container) return;
+  if (typeof firebase === 'undefined' || !firebase.firestore) {
+    showPlaceholderDrops(container); return;
+  }
+  firebase.firestore().collection('songs').orderBy('releaseDate', 'desc').limit(3).get()
+    .then(function(snap) {
+      if (snap.empty) { showPlaceholderDrops(container); return; }
+      container.innerHTML = '';
+      snap.forEach(function(doc) { container.appendChild(createDropCard(doc.data())); });
+    }).catch(function() { showPlaceholderDrops(container); });
+}
+
+function createDropCard(r) {
+  var card = document.createElement('div');
+  card.className = 'bg-surface-container-high rounded-xl overflow-hidden shadow-2xl';
+  card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+  card.onmouseenter = function() { this.style.transform = 'translateY(-3px)'; this.style.boxShadow = '0 0 20px rgba(255,107,53,0.15)'; };
+  card.onmouseleave = function() { this.style.transform = ''; this.style.boxShadow = ''; };
+
+  if (r.spotifyLink) {
+    var parts = r.spotifyLink.split('/');
+    var last = parts[parts.length - 1].split('?')[0];
+    var type = r.spotifyLink.indexOf('/album/') !== -1 ? 'album' : 'track';
+    var src = 'https://open.spotify.com/embed/' + type + '/' + last + '?utm_source=generator&theme=0';
+    card.innerHTML = '<iframe style="border-radius:12px;display:block" src="' + src + '" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+  } else {
+    card.innerHTML = '<div style="height:152px;background:#2a2a2a;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:2.5rem;color:#594139">music_note</span></div>';
+  }
+  card.innerHTML += '<div style="padding:1rem"><p class="font-bebas" style="font-size:1.1rem;color:#e5e2e1">' + (r.title || 'Untitled') + '</p><p class="font-label" style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#ff6b35;margin-top:4px">' + (r.artist || '') + '</p></div>';
+  return card;
+}
+
+function showPlaceholderDrops(container) {
+  // Real embed — MIND > MATTER EP
+  container.innerHTML =
+    '<div class="bg-surface-container-high rounded-xl overflow-hidden shadow-2xl">' +
+    '<iframe style="border-radius:12px;display:block" src="https://open.spotify.com/embed/album/6wUYfAEUysLOeR0uK5I7w1?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>' +
+    '<div style="padding:1rem"><p class="font-bebas" style="font-size:1.1rem;color:#e5e2e1">MIND &gt; MATTER</p><p class="font-label" style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#ff6b35;margin-top:4px">Great Minds Creating</p></div></div>' +
+    '<div class="skeleton rounded-xl" style="height:200px"></div>' +
+    '<div class="skeleton rounded-xl" style="height:200px"></div>';
+}
+
+// ---- POLLS ----
+function loadPolls() {
+  var container = document.getElementById('pollsContainer');
+  if (!container) return;
+  if (typeof firebase === 'undefined' || !firebase.firestore) {
+    renderPolls(SAMPLE_POLLS, container); return;
+  }
+  firebase.firestore().collection('polls').where('active', '==', true).get()
+    .then(function(snap) {
+      var polls = [];
+      if (!snap.empty) { snap.forEach(function(d) { polls.push(Object.assign({ id: d.id }, d.data())); }); }
+      renderPolls(polls.length ? polls : SAMPLE_POLLS, container);
+    }).catch(function() { renderPolls(SAMPLE_POLLS, container); });
+}
+
+function renderPolls(polls, container) {
+  container.innerHTML = '';
+  polls.forEach(function(poll) { container.appendChild(createPollCard(poll)); });
+}
+
+function createPollCard(poll) {
+  var card = document.createElement('div');
+  card.setAttribute('data-poll-id', poll.id);
+  card.style.cssText = 'background:#2a2a2a;border-radius:12px;padding:24px;border:1px solid rgba(89,65,57,0.2)';
+
+  var votedOption = localStorage.getItem('gmc_poll_' + poll.id);
+  var totalVotes = 0;
+  var voteCounts = {};
+  if (poll.votes && typeof poll.votes === 'object') {
+    Object.keys(poll.votes).forEach(function(k) { voteCounts[k] = poll.votes[k] || 0; totalVotes += voteCounts[k]; });
+  }
+
+  var html = '<p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.3em;color:#ff6b35;font-family:Manrope;margin-bottom:12px">Fan Poll</p>';
+  html += '<h3 style="font-family:\'Bebas Neue\';font-size:1.5rem;color:#e5e2e1;margin-bottom:16px">' + poll.question + '</h3>';
+
+  poll.options.forEach(function(opt) {
+    var count = voteCounts[opt] || 0;
+    var pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+    var isVoted = votedOption === opt;
+    var hasVoted = votedOption !== null;
+
+    var borderColor = isVoted ? '#ff6b35' : 'rgba(89,65,57,0.3)';
+    var bg = isVoted ? 'rgba(255,107,53,0.12)' : 'transparent';
+    var cursor = hasVoted ? 'default' : 'pointer';
+    var onclick = hasVoted ? '' : 'onclick="castVote(\'' + poll.id + '\',\'' + opt.replace(/'/g, "\\'") + '\')"';
+
+    html += '<div ' + onclick + ' style="border:1px solid ' + borderColor + ';border-radius:4px;padding:10px 14px;margin-bottom:8px;background:' + bg + ';cursor:' + cursor + ';transition:all 0.2s"' +
+      (hasVoted ? '' : ' onmouseenter="this.style.background=\'rgba(255,107,53,0.08)\';this.style.borderColor=\'rgba(255,107,53,0.5)\'" onmouseleave="this.style.background=\'' + bg + '\';this.style.borderColor=\'' + borderColor + '\'"') + '>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:' + (hasVoted ? '6px' : '0') + '">' +
+      '<span style="font-family:Manrope;font-size:0.875rem;color:#e5e2e1">' + opt + '</span>' +
+      (hasVoted ? '<span style="font-family:Manrope;font-size:0.75rem;color:#e1bfb5">' + pct + '%</span>' : '') +
+      '</div>';
+    if (hasVoted) {
+      html += '<div style="height:3px;background:#353534;border-radius:2px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:' + (isVoted ? '#ff6b35' : '#3a3939') + ';border-radius:2px;transition:width 0.8s ease"></div></div>';
+    }
+    html += '</div>';
+  });
+
+  if (totalVotes > 0) {
+    html += '<p style="font-family:Manrope;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:rgba(225,191,181,0.4);margin-top:12px">' + totalVotes + ' votes cast</p>';
+  }
+
+  card.innerHTML = html;
+  return card;
+}
+
+function castVote(pollId, option) {
+  if (localStorage.getItem('gmc_poll_' + pollId)) return;
+  localStorage.setItem('gmc_poll_' + pollId, option);
+  if (typeof firebase !== 'undefined' && firebase.firestore && currentUser) {
+    firebase.firestore().collection('votes').add({ pollId: pollId, userId: currentUser.uid, option: option, votedAt: new Date().toISOString() }).catch(function() {});
+    var update = {};
+    update['votes.' + option] = firebase.firestore.FieldValue.increment(1);
+    firebase.firestore().collection('polls').doc(pollId).update(update).catch(function() {});
+  }
+  loadPolls();
+}
+</script>
+</body>
 </html>
