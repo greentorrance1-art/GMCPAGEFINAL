@@ -16,6 +16,9 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
   .btn-admin-inline{display:none!important}.btn-admin-inline.admin-visible{display:inline-flex!important}
   @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
   .skeleton{background:linear-gradient(90deg,#1a1a1a 25%,#222 50%,#1a1a1a 75%);background-size:200% 100%;animation:shimmer 2.5s infinite;border-radius:8px}
+  .product-card{transition:transform 0.2s ease,box-shadow 0.2s ease}
+  .product-card:hover{transform:translateY(-3px);box-shadow:0 0 20px rgba(255,107,53,0.12)}
+  .active-pf{border-color:#ff6b35!important;color:#ff6b35!important}
 </style>
 </head>
 <body class="bg-background text-on-surface font-body pb-20 md:pb-0">
@@ -58,131 +61,44 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
 <main>
 <!-- HERO -->
 <section class="py-24 px-6 md:px-16 bg-surface-container-lowest">
-  <div class="max-w-7xl mx-auto">
-    <p class="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed mb-4">Archive 001</p>
-    <h1 class="font-bebas text-7xl md:text-9xl leading-none text-on-surface mb-4">GMC Clothing</h1>
-    <p class="font-body text-on-surface-variant text-xl max-w-xl">Official Great Minds Creating merchandise. Limited edition. Built for the culture.</p>
+  <div class="max-w-7xl mx-auto flex justify-between items-end">
+    <div>
+      <p class="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed mb-4">Archive 001</p>
+      <h1 class="font-bebas text-7xl md:text-9xl leading-none text-on-surface mb-4">GMC Clothing</h1>
+      <p class="font-body text-on-surface-variant text-xl max-w-xl">Official Great Minds Creating merchandise. Limited edition. Built for the culture.</p>
+    </div>
+    <a href="admin-dashboard.html" class="btn-admin-inline items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-5 py-3 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all flex-shrink-0">
+      <span class="material-symbols-outlined text-sm">add</span>Manage Merch
+    </a>
   </div>
 </section>
 
 <!-- STORE -->
 <section class="py-20 px-6 md:px-12 bg-surface-container-low">
   <div class="max-w-7xl mx-auto">
-    <!-- Category Filter -->
-    <div class="flex gap-3 mb-12 flex-wrap">
+    <!-- Filter -->
+    <div class="flex gap-3 mb-12 flex-wrap" id="filterBar">
       <button onclick="filterProducts('all')" class="product-filter active-pf font-label text-xs uppercase tracking-widest px-4 py-2 border border-primary-container text-primary-container transition-all">All</button>
-      <button onclick="filterProducts('tshirts')" class="product-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">T-Shirts</button>
       <button onclick="filterProducts('hoodies')" class="product-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">Hoodies</button>
+      <button onclick="filterProducts('tshirts')" class="product-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">T-Shirts</button>
       <button onclick="filterProducts('hats')" class="product-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">Hats</button>
       <button onclick="filterProducts('accessories')" class="product-filter font-label text-xs uppercase tracking-widest px-4 py-2 border border-outline-variant/40 text-on-surface-variant hover:border-primary-container hover:text-primary transition-all">Accessories</button>
     </div>
 
     <!-- Products Grid -->
     <div id="productsGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="hoodies">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">checkroom</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">Vanguard Hoodie</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">Premium Heavyweight</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-primary">$68.00</span>
-            <button onclick="openCheckout('Vanguard Hoodie',68)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="tshirts">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">style</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">Pulse Graphic Tee</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">100% Cotton</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-primary">$34.00</span>
-            <button onclick="openCheckout('Pulse Graphic Tee',34)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="hoodies">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">checkroom</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">GMC Logo Hoodie</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">Classic Fit</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-primary">$55.00</span>
-            <button onclick="openCheckout('GMC Logo Hoodie',55)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="tshirts">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">style</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">Great Minds Tee</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">Premium Cotton</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-primary">$30.00</span>
-            <button onclick="openCheckout('Great Minds Tee',30)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="hats">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">diamond</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">GMC Snapback</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">Structured 6-Panel</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-secondary-fixed">$28.00</span>
-            <button onclick="openCheckout('GMC Snapback',28)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="hats">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">diamond</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">GMC Beanie</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">Ribbed Knit</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-secondary-fixed">$22.00</span>
-            <button onclick="openCheckout('GMC Beanie',22)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="accessories">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">sell</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">Sticker Pack</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">6 Premium Stickers</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-primary">$10.00</span>
-            <button onclick="openCheckout('Sticker Pack',10)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
-      <div class="product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group" data-category="accessories">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20">key</span>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">GMC Keychain</p>
-          <p class="font-label text-xs text-on-surface-variant mt-1 mb-3">Metal Finish</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bebas text-2xl text-primary">$15.00</span>
-            <button onclick="openCheckout('GMC Keychain',15)" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button>
-          </div>
-        </div>
-      </div>
+      <!-- Loaded from Firebase -->
+      <div class="skeleton rounded-xl" style="height:320px"></div>
+      <div class="skeleton rounded-xl" style="height:320px"></div>
+      <div class="skeleton rounded-xl" style="height:320px"></div>
+      <div class="skeleton rounded-xl" style="height:320px"></div>
+    </div>
+
+    <!-- No products message -->
+    <div id="noProducts" class="hidden py-20 text-center">
+      <span class="material-symbols-outlined text-5xl text-on-surface-variant/30 block mb-4">checkroom</span>
+      <p class="font-bebas text-3xl text-on-surface mb-2">No Products Found</p>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Check back soon for new drops.</p>
     </div>
   </div>
 </section>
@@ -198,43 +114,31 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
     <p class="font-bebas text-3xl text-primary mb-6" id="checkoutPrice">$0.00</p>
     <form onsubmit="handleCheckout(event)" class="space-y-4">
       <input type="hidden" id="checkoutProductHidden"/>
-      <input type="hidden" id="checkoutPriceHidden"/>
+      <input type="text" id="checkoutName" required placeholder="Full Name" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <input type="email" id="checkoutEmail" required placeholder="Email Address" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <input type="tel" id="checkoutPhone" placeholder="Phone (optional)" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
       <select id="checkoutSize" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors">
         <option value="">Select Size (if applicable)</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>N/A</option>
       </select>
-      <input id="orderName" type="text" required placeholder="Full Name" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <input id="orderEmail" type="email" required placeholder="Email" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <input id="orderPhone" type="tel" placeholder="Phone" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <input id="orderAddress" type="text" required placeholder="Shipping Address" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <div class="grid grid-cols-2 gap-3">
-        <input id="orderCity" type="text" required placeholder="City" class="bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-        <input id="orderZip" type="text" required placeholder="Zip Code" class="bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      </div>
-      <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-4 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Place Order</button>
+      <textarea id="checkoutNotes" placeholder="Notes / Special Requests" rows="2" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+      <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Place Order</button>
     </form>
   </div>
 </div>
 
-<!-- FAN SIGNUP MODAL -->
-<div id="fanSignupModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
-  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeFanModal()"></div>
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
   <div class="relative bg-surface-container border border-outline-variant/40 p-8 w-full max-w-sm mx-4">
-    <button onclick="closeFanModal()" class="absolute top-4 right-4 text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
-    <p class="font-label text-xs uppercase tracking-[0.4em] text-secondary-fixed mb-2">Inner Circle</p>
-    <h2 class="font-bebas text-4xl text-on-surface mb-2">Get 10% Off</h2>
-    <p class="font-body text-xs text-on-surface-variant mb-6">Join the GMC community for exclusive drops and discounts.</p>
-    <form onsubmit="handleFanSignup(event)" class="space-y-3">
-      <input id="fanName" type="text" required placeholder="Full Name" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <input id="fanPhone" type="tel" placeholder="Phone Number" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <select id="fanFavoriteArtist" required class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors">
-        <option value="">Select Your Primary Artist</option>
-        <option value="casshcreate">casshcreate</option>
-        <option value="B Blazo">B Blazo</option>
-        <option value="Jay Bando Baby">Jay Bando Baby</option>
-      </select>
-      <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Join the Collective</button>
-      <button type="button" onclick="closeFanModal()" class="w-full text-on-surface-variant/50 text-xs font-label uppercase tracking-widest py-2">Skip</button>
+    <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
+    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Admin Access</p>
+    <h2 class="font-bebas text-4xl text-on-surface mb-6">Login</h2>
+    <div id="loginError" class="hidden bg-error/10 border border-error/30 text-error text-xs font-label uppercase tracking-widest px-3 py-2 mb-4"></div>
+    <form onsubmit="handleLogin(event)" class="space-y-4">
+      <input id="loginEmail" type="email" required placeholder="Email" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <input id="loginPassword" type="password" required placeholder="Password" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
+      <button type="submit" id="loginSubmitBtn" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Login</button>
     </form>
   </div>
 </div>
@@ -248,69 +152,143 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
   <button onclick="openLoginModal()" class="flex flex-col items-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">account_circle</span><span class="font-label text-[9px] uppercase tracking-widest mt-0.5">Login</span></button>
 </nav>
 
-<!-- LOGIN MODAL -->
-<div id="loginModal" class="fixed inset-0 z-[200] flex items-center justify-center hidden">
-  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
-  <div class="relative bg-surface-container border border-outline-variant/40 p-8 w-full max-w-sm mx-4">
-    <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-on-surface-variant"><span class="material-symbols-outlined">close</span></button>
-    <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-2">Admin Access</p>
-    <h2 class="font-bebas text-4xl text-on-surface mb-6">Login</h2>
-    <div id="loginError" class="hidden bg-error/10 border border-error/30 text-error text-xs font-label px-3 py-2 mb-4"></div>
-    <form onsubmit="handleLogin(event)" class="space-y-4">
-      <input id="loginEmail" type="email" required placeholder="Email" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <input id="loginPassword" type="password" required placeholder="Password" class="w-full bg-surface-container-low border border-outline-variant/40 text-on-surface px-4 py-3 font-body text-sm focus:outline-none focus:border-primary transition-colors"/>
-      <button type="submit" id="loginSubmitBtn" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Login</button>
-    </form>
-  </div>
-</div>
-
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script src="config/firebase-config.js"></script>
 <script>
-var currentUser=null;
-document.addEventListener('DOMContentLoaded',function(){
-  if(typeof firebase!=='undefined'&&firebase.auth){firebase.auth().onAuthStateChanged(function(u){currentUser=u;if(u){document.getElementById('loginBtn').style.display='none';document.getElementById('logoutBtn').style.display='inline-block';}else{document.getElementById('loginBtn').style.display='inline-block';document.getElementById('logoutBtn').style.display='none';}});}
-  // Fan signup modal
-  var inIframe=false;try{inIframe=window.self!==window.top;}catch(e){inIframe=true;}
-  if(!inIframe&&document.cookie.indexOf('gmcFanSeen')===-1){setTimeout(function(){document.getElementById('fanSignupModal').classList.remove('hidden');},6000);}
+var ADMIN_EMAILS=['torrancegreen22@yahoo.com','jaybandz635@gmail.com','beats4bblazo@gmail.com'];
+var currentUser = null;
+var allProducts = [];
+var currentFilter = 'all';
+
+var HARDCODED_PRODUCTS = [
+  {id:'h1',title:'Vanguard Hoodie',description:'Premium Heavyweight',price:68,category:'hoodies',image:''},
+  {id:'h2',title:'Pulse Graphic Tee',description:'100% Cotton',price:34,category:'tshirts',image:''},
+  {id:'h3',title:'GMC Logo Hoodie',description:'Classic Fit',price:55,category:'hoodies',image:''},
+  {id:'h4',title:'Great Minds Tee',description:'Premium Cotton',price:30,category:'tshirts',image:''},
+  {id:'h5',title:'GMC Snapback',description:'Structured 6-Panel',price:28,category:'hats',image:''},
+  {id:'h6',title:'GMC Beanie',description:'Ribbed Knit',price:22,category:'hats',image:''},
+  {id:'h7',title:'Sticker Pack',description:'6 Premium Stickers',price:10,category:'accessories',image:''},
+  {id:'h8',title:'GMC Keychain',description:'Metal Finish',price:15,category:'accessories',image:''}
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().onAuthStateChanged(function(u) {
+      currentUser = u;
+      if (u) { handleUserLoggedIn(u); } else { handleUserLoggedOut(); }
+    });
+    loadProducts();
+  } else {
+    allProducts = HARDCODED_PRODUCTS;
+    renderProducts();
+  }
 });
-function filterProducts(cat){
-  document.querySelectorAll('.product-filter').forEach(function(b){b.classList.remove('border-primary-container','text-primary-container');b.classList.add('border-outline-variant/40','text-on-surface-variant');});
-  event.target.classList.add('border-primary-container','text-primary-container');event.target.classList.remove('border-outline-variant/40','text-on-surface-variant');
-  document.querySelectorAll('.product-card').forEach(function(c){c.style.display=(cat==='all'||c.dataset.category===cat)?'block':'none';});
+
+function loadProducts() {
+  if (typeof firebase === 'undefined' || !firebase.firestore) { allProducts = HARDCODED_PRODUCTS; renderProducts(); return; }
+  firebase.firestore().collection('merch').orderBy('createdAt', 'desc').get()
+    .then(function(snap) {
+      if (snap.empty) { allProducts = HARDCODED_PRODUCTS; }
+      else { allProducts = []; snap.forEach(function(doc) { allProducts.push(Object.assign({id: doc.id}, doc.data())); }); }
+      renderProducts();
+    }).catch(function() { allProducts = HARDCODED_PRODUCTS; renderProducts(); });
 }
-function openCheckout(name,price){
-  document.getElementById('checkoutProductName').textContent=name;
-  document.getElementById('checkoutPrice').textContent='$'+price+'.00';
-  document.getElementById('checkoutProductHidden').value=name;
-  document.getElementById('checkoutPriceHidden').value=price;
+
+function renderProducts() {
+  var grid = document.getElementById('productsGrid');
+  var noProducts = document.getElementById('noProducts');
+  var filtered = currentFilter === 'all' ? allProducts : allProducts.filter(function(p) { return p.category === currentFilter; });
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noProducts.classList.remove('hidden');
+    return;
+  }
+  noProducts.classList.add('hidden');
+  grid.innerHTML = '';
+  filtered.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'product-card bg-surface-container overflow-hidden border border-outline-variant/10 hover:border-primary-container/40 transition-all group';
+    card.setAttribute('data-category', p.category || 'all');
+    var imgContent;
+    if (p.image) {
+      imgContent = '<img src="'+escHtml(p.image)+'" alt="'+escHtml(p.title||'')+'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">';
+    } else {
+      var iconMap = {hoodies:'checkroom',tshirts:'style',hats:'diamond',accessories:'sell'};
+      var icon = iconMap[p.category] || 'checkroom';
+      imgContent = '<span class="material-symbols-outlined text-6xl text-on-surface-variant/20">'+icon+'</span>';
+    }
+    var priceColor = (p.category === 'hats' || p.category === 'accessories') ? 'text-secondary-fixed' : 'text-primary';
+    var price = p.price ? '$' + parseFloat(p.price).toFixed(2) : '';
+    card.innerHTML = '<div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">'+imgContent+'</div><div class="p-4"><p class="font-bebas text-xl text-on-surface">'+escHtml(p.title||'Untitled')+'</p><p class="font-label text-xs text-on-surface-variant mt-1 mb-3">'+escHtml(p.description||'')+'</p><div class="flex justify-between items-center"><span class="font-bebas text-2xl '+priceColor+'">'+escHtml(price)+'</span><button onclick="openCheckout(\''+escHtml(p.title)+'\','+parseFloat(p.price||0)+')" class="bg-primary-container text-on-primary-fixed font-bold text-xs uppercase tracking-widest px-4 py-2 hover:brightness-125 transition-all">Buy Now</button></div></div>';
+    grid.appendChild(card);
+  });
+}
+
+function filterProducts(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.product-filter').forEach(function(btn) { btn.classList.remove('active-pf'); });
+  event.target.classList.add('active-pf');
+  renderProducts();
+}
+
+function openCheckout(productName, price) {
+  document.getElementById('checkoutProductName').textContent = productName;
+  document.getElementById('checkoutPrice').textContent = price ? '$' + parseFloat(price).toFixed(2) : '';
+  document.getElementById('checkoutProductHidden').value = productName;
   document.getElementById('checkoutModal').classList.remove('hidden');
 }
-function closeCheckout(){document.getElementById('checkoutModal').classList.add('hidden');}
-function handleCheckout(e){
+function closeCheckout() { document.getElementById('checkoutModal').classList.add('hidden'); }
+
+function handleCheckout(e) {
   e.preventDefault();
-  var order={product:document.getElementById('checkoutProductHidden').value,price:parseFloat(document.getElementById('checkoutPriceHidden').value),size:document.getElementById('checkoutSize').value,name:document.getElementById('orderName').value,email:document.getElementById('orderEmail').value,phone:document.getElementById('orderPhone').value,address:document.getElementById('orderAddress').value,city:document.getElementById('orderCity').value,zip:document.getElementById('orderZip').value,status:'pending',orderedAt:new Date().toISOString()};
-  if(typeof firebase!=='undefined'&&firebase.firestore){firebase.firestore().collection('orders').add(order).then(function(){closeCheckout();alert('Order placed! We will contact you shortly.');}).catch(function(){alert('Error placing order. Please try again.');});}
-  else{closeCheckout();alert('Order received! We will contact you shortly.');}
+  var data = {
+    product: document.getElementById('checkoutProductHidden').value,
+    name: document.getElementById('checkoutName').value,
+    email: document.getElementById('checkoutEmail').value,
+    phone: document.getElementById('checkoutPhone').value,
+    size: document.getElementById('checkoutSize').value,
+    notes: document.getElementById('checkoutNotes').value,
+    orderedAt: new Date().toISOString()
+  };
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    firebase.firestore().collection('orders').add(data).catch(function() {});
+  }
+  closeCheckout();
+  alert('Order received! We\'ll reach out to you at ' + data.email + ' to complete your purchase.');
 }
-function closeFanModal(){
-  document.getElementById('fanSignupModal').classList.add('hidden');
-  var d=new Date();d.setTime(d.getTime()+30*24*60*60*1000);
-  document.cookie='gmcFanSeen=true; expires='+d.toUTCString()+'; path=/';
+
+function handleUserLoggedIn(u) {
+  var email = u.email ? u.email.toLowerCase() : '';
+  document.getElementById('loginBtn').style.display = 'none';
+  document.getElementById('logoutBtn').style.display = 'inline-block';
+  if (ADMIN_EMAILS.indexOf(email) !== -1) {
+    document.querySelectorAll('.btn-admin-inline').forEach(function(el){el.classList.add('admin-visible');});
+    document.querySelectorAll('.admin-only').forEach(function(el){el.classList.add('admin-visible');});
+  }
 }
-function handleFanSignup(e){
-  e.preventDefault();
-  var data={name:document.getElementById('fanName').value,phone:document.getElementById('fanPhone').value,favoriteArtist:document.getElementById('fanFavoriteArtist').value,signupDate:new Date().toISOString()};
-  if(typeof firebase!=='undefined'&&firebase.firestore){firebase.firestore().collection('fans').add(data).catch(function(){});}
-  closeFanModal();
+function handleUserLoggedOut() {
+  document.getElementById('loginBtn').style.display = 'inline-block';
+  document.getElementById('logoutBtn').style.display = 'none';
+  document.querySelectorAll('.btn-admin-inline,.admin-only').forEach(function(el){el.classList.remove('admin-visible');});
 }
 function openLoginModal(){document.getElementById('loginModal').classList.remove('hidden');}
 function closeLoginModal(){document.getElementById('loginModal').classList.add('hidden');}
 function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('hidden');}
 function handleLogout(){if(typeof firebase!=='undefined'&&firebase.auth)firebase.auth().signOut();}
-function handleLogin(e){e.preventDefault();var email=document.getElementById('loginEmail').value;var pw=document.getElementById('loginPassword').value;var btn=document.getElementById('loginSubmitBtn');var err=document.getElementById('loginError');if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){err.textContent='Login failed. Please refresh and try again.';err.classList.remove('hidden');return;}btn.textContent='Logging in...';btn.disabled=true;firebase.auth().signInWithEmailAndPassword(email,pw).then(function(){closeLoginModal();}).catch(function(error){err.textContent=error.message;err.classList.remove('hidden');btn.textContent='Login';btn.disabled=false;});}
+function handleLogin(e){
+  e.preventDefault();
+  var email=document.getElementById('loginEmail').value;
+  var pw=document.getElementById('loginPassword').value;
+  var btn=document.getElementById('loginSubmitBtn');
+  var err=document.getElementById('loginError');
+  btn.textContent='Logging in...';btn.disabled=true;
+  firebase.auth().signInWithEmailAndPassword(email,pw)
+    .then(function(){closeLoginModal();})
+    .catch(function(error){err.textContent=error.message;err.classList.remove('hidden');btn.textContent='Login';btn.disabled=false;});
+}
+function escHtml(str){if(!str)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
 </html>
