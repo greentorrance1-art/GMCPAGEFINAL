@@ -327,7 +327,7 @@ function handleLogin(e){
   var pw=document.getElementById('loginPassword').value;
   var btn=document.getElementById('loginSubmitBtn');
   var err=document.getElementById('loginError');
-  if(typeof firebase==='undefined'||!firebase.auth){err.textContent='Firebase not configured.';err.classList.remove('hidden');return;}
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){err.textContent='Login failed. Please refresh and try again.';err.classList.remove('hidden');return;}
   btn.textContent='Logging in...';btn.disabled=true;
   firebase.auth().signInWithEmailAndPassword(email,pw)
     .then(function(){closeLoginModal();})
@@ -344,7 +344,7 @@ function editBio(artist){
   if(!currentUser){alert('Admin login required.');return;}
   var bio=prompt('Enter new bio for '+artist+':',document.getElementById('artistBio').innerText);
   if(!bio)return;
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
   firebase.firestore().collection('artists').where('name','==',artist).get().then(function(snap){
     if(snap.empty){firebase.firestore().collection('artists').add({name:artist,bio:bio});}
     else{snap.docs[0].ref.update({bio:bio});}
@@ -357,7 +357,7 @@ function addArtistSong(artist){
   if(!url)return;
   var title=prompt('Song/album title:');
   if(!title)return;
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
   firebase.firestore().collection('songs').add({title:title,artist:artist,spotifyLink:url,releaseDate:new Date().toISOString()})
     .then(function(){loadSongs();});
 }
@@ -370,7 +370,7 @@ function addArtistVideo(artist){
   var match=url.match(/(?:youtu\.be\/|v=)([^#&?]{11})/);
   var youtubeId=match?match[1]:null;
   if(!youtubeId){alert('Invalid YouTube URL');return;}
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
   firebase.firestore().collection('videos').add({title:title,artist:artist,youtubeId:youtubeId,releaseDate:new Date().toISOString()})
     .then(function(){loadVideos();});
 }
