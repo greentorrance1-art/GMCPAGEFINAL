@@ -294,47 +294,10 @@ window.addEventListener('load', function() {
       <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">The Feed</h2>
       <div class="h-px flex-1 bg-outline-variant/40"></div>
     </div>
-    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
-      <a href="https://instagram.com/greatmindscreating" target="_blank"
-         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
-        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
-        <div class="absolute bottom-3 left-3 z-20">
-          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@greatmindscreating</p>
-        </div>
-        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
-        </div>
-      </a>
-      <a href="https://instagram.com/jaybandobaby" target="_blank"
-         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
-        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
-        <div class="absolute bottom-3 left-3 z-20">
-          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@jaybandobaby</p>
-        </div>
-        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
-        </div>
-      </a>
-      <a href="https://instagram.com/bblazo" target="_blank"
-         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
-        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
-        <div class="absolute bottom-3 left-3 z-20">
-          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@bblazo</p>
-        </div>
-        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
-        </div>
-      </a>
-      <a href="https://instagram.com/casshcreate" target="_blank"
-         class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
-        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
-        <div class="absolute bottom-3 left-3 z-20">
-          <p class="font-label text-xs uppercase tracking-widest text-on-surface">@casshcreate</p>
-        </div>
-        <div class="w-full h-full bg-surface-container-high flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-          <span class="material-symbols-outlined text-4xl text-on-surface-variant/40">photo_camera</span>
-        </div>
-      </a>
+    <div id="homeFeedContainer" class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+      <div class="skeleton rounded-xl flex-shrink-0" style="min-width:220px;aspect-ratio:1"></div>
+      <div class="skeleton rounded-xl flex-shrink-0" style="min-width:220px;aspect-ratio:1"></div>
+      <div class="skeleton rounded-xl flex-shrink-0" style="min-width:220px;aspect-ratio:1"></div>
     </div>
   </div>
 </section>
@@ -347,18 +310,9 @@ window.addEventListener('load', function() {
       <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">Visual Narrative</h2>
       <div class="h-px flex-1 bg-outline-variant/40"></div>
     </div>
-    <div class="aspect-video bg-surface-container-high rounded-xl overflow-hidden relative group">
-      <div class="absolute inset-0 flex items-center justify-center z-10">
-        <a href="https://youtube.com/@greatmindscreating" target="_blank"
-           class="w-20 h-20 rounded-full glass-panel border border-outline-variant flex items-center justify-center group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings:'FILL' 1;">play_circle</span>
-        </a>
-      </div>
-      <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/60 to-transparent"></div>
-      <div class="absolute bottom-6 left-6 z-10">
-        <p class="font-label text-xs uppercase tracking-widest text-primary mb-1">Latest Visual</p>
-        <p class="font-bebas text-3xl text-on-surface">Great Minds Creating — Official</p>
-      </div>
+    <div id="homeVideoContainer" class="grid md:grid-cols-2 gap-8">
+      <div class="skeleton rounded-xl" style="aspect-ratio:16/9"></div>
+      <div class="skeleton rounded-xl" style="aspect-ratio:16/9"></div>
     </div>
   </div>
 </section>
@@ -377,52 +331,9 @@ window.addEventListener('load', function() {
       </a>
     </div>
     <div id="merchPreview" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Merch cards: loaded from Firestore or fallback -->
-      <div class="bg-surface-container group overflow-hidden relative">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-container-highest"></div>
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 relative z-10">checkroom</span>
-          <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-surface-container to-transparent"></div>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">Vanguard Hoodie</p>
-          <p class="font-label text-sm text-on-surface-variant mt-1">Premium Heavyweight</p>
-          <div class="flex justify-between items-center mt-3">
-            <span class="font-bebas text-2xl text-primary">$68.00</span>
-            <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Shop →</a>
-          </div>
-        </div>
-      </div>
-      <div class="bg-surface-container group overflow-hidden relative">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-container-highest"></div>
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 relative z-10">style</span>
-          <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-surface-container to-transparent"></div>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">Pulse Graphic Tee</p>
-          <p class="font-label text-sm text-on-surface-variant mt-1">100% Cotton</p>
-          <div class="flex justify-between items-center mt-3">
-            <span class="font-bebas text-2xl text-primary">$34.00</span>
-            <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Shop →</a>
-          </div>
-        </div>
-      </div>
-      <div class="bg-surface-container group overflow-hidden relative md:col-span-2 lg:col-span-1">
-        <div class="aspect-square bg-surface-container-high flex items-center justify-center relative overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-container-highest"></div>
-          <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 relative z-10">diamond</span>
-          <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-surface-container to-transparent"></div>
-        </div>
-        <div class="p-4">
-          <p class="font-bebas text-xl text-on-surface">GMC Snapback</p>
-          <p class="font-label text-sm text-on-surface-variant mt-1">Structured 6-Panel</p>
-          <div class="flex justify-between items-center mt-3">
-            <span class="font-bebas text-2xl text-secondary-fixed">$28.00</span>
-            <a href="merch.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Shop →</a>
-          </div>
-        </div>
-      </div>
+      <div class="skeleton rounded-xl" style="height:280px"></div>
+      <div class="skeleton rounded-xl" style="height:280px"></div>
+      <div class="skeleton rounded-xl" style="height:280px"></div>
     </div>
   </div>
 </section>
@@ -624,6 +535,9 @@ document.addEventListener('DOMContentLoaded', function() {
   setBottomPlayerFallback();
   loadRecentDrops();
   loadPolls();
+  loadHomeFeed();
+  loadHomeVideos();
+  loadMerchPreview();
   checkFanSignupCookie();
 
   // Wire Firebase auth if available
@@ -891,14 +805,18 @@ function updateProgressBar() {
   if (fill) fill.style.width = pct + '%';
 }
 
-// ---- RECENT DROPS ----
+// ---- RECENT DROPS (homepage: only display.home == true) ----
 function loadRecentDrops() {
   var container = document.getElementById('latestDrops');
   if (!container) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) {
     showPlaceholderDrops(container); return;
   }
-  firebase.firestore().collection('songs').orderBy('releaseDate', 'desc').limit(3).get()
+  firebase.firestore().collection('songs')
+    .where('display.home', '==', true)
+    .orderBy('releaseDate', 'desc')
+    .limit(3)
+    .get()
     .then(function(snap) {
       if (snap.empty) { showPlaceholderDrops(container); return; }
       container.innerHTML = '';
@@ -1012,6 +930,115 @@ function castVote(pollId, option) {
     firebase.firestore().collection('polls').doc(pollId).update(update).catch(function() {});
   }
   loadPolls();
+}
+
+// ---- HOME FEED (Instagram: display.home == true) ----
+function loadHomeFeed() {
+  var container = document.getElementById('homeFeedContainer');
+  if (!container) return;
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  firebase.firestore().collection('instagram_posts')
+    .where('display.home', '==', true)
+    .orderBy('createdAt', 'desc')
+    .limit(6)
+    .get()
+    .then(function(snap) {
+      if (snap.empty) {
+        // Show static profile links as fallback
+        container.innerHTML =
+          '<a href="https://instagram.com/greatmindscreating" target="_blank" class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block" style="aspect-ratio:1"><div style="width:100%;height:100%;background:#201f1f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px"><span class="material-symbols-outlined" style="font-size:2.5rem;color:rgba(225,191,181,0.3)">photo_camera</span><p style="font-family:Manrope;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#e1bfb5">@greatmindscreating</p></div></a>' +
+          '<a href="https://instagram.com/casshcreate" target="_blank" class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block" style="aspect-ratio:1"><div style="width:100%;height:100%;background:#201f1f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px"><span class="material-symbols-outlined" style="font-size:2.5rem;color:rgba(225,191,181,0.3)">photo_camera</span><p style="font-family:Manrope;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#e1bfb5">@casshcreate</p></div></a>' +
+          '<a href="https://instagram.com/bblazo" target="_blank" class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block" style="aspect-ratio:1"><div style="width:100%;height:100%;background:#201f1f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px"><span class="material-symbols-outlined" style="font-size:2.5rem;color:rgba(225,191,181,0.3)">photo_camera</span><p style="font-family:Manrope;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#e1bfb5">@bblazo</p></div></a>' +
+          '<a href="https://instagram.com/jaybandobaby" target="_blank" class="min-w-[220px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block" style="aspect-ratio:1"><div style="width:100%;height:100%;background:#201f1f;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px"><span class="material-symbols-outlined" style="font-size:2.5rem;color:rgba(225,191,181,0.3)">photo_camera</span><p style="font-family:Manrope;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#e1bfb5">@jaybandobaby</p></div></a>';
+        return;
+      }
+      container.innerHTML = '';
+      snap.forEach(function(doc) {
+        var post = doc.data();
+        var wrapper = document.createElement('div');
+        wrapper.style.cssText = 'min-width:320px;flex-shrink:0';
+        wrapper.innerHTML =
+          '<blockquote class="instagram-media" data-instgrm-permalink="' + post.postUrl + '" data-instgrm-version="14" style="background:#201f1f;border:1px solid rgba(89,65,57,0.3);border-radius:8px;margin:0;min-width:320px;width:100%">' +
+          '<a href="' + post.postUrl + '" target="_blank" style="display:block;padding:1rem;font-family:Manrope;font-size:0.75rem;color:#ffb59d;text-decoration:none">View on Instagram →</a></blockquote>';
+        container.appendChild(wrapper);
+      });
+      // Load Instagram embed script
+      if (!document.getElementById('ig-embed-script')) {
+        var s = document.createElement('script');
+        s.id = 'ig-embed-script';
+        s.async = true;
+        s.src = '//www.instagram.com/embed.js';
+        document.body.appendChild(s);
+      } else if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    }).catch(function() {});
+}
+
+// ---- HOME VIDEOS (Visual Narrative: display.home == true) ----
+function loadHomeVideos() {
+  var container = document.getElementById('homeVideoContainer');
+  if (!container) return;
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  firebase.firestore().collection('videos')
+    .where('display.home', '==', true)
+    .orderBy('createdAt', 'desc')
+    .limit(4)
+    .get()
+    .then(function(snap) {
+      if (snap.empty) {
+        // Fallback: YouTube channel link card
+        container.innerHTML =
+          '<div style="aspect-ratio:16/9;background:#2a2a2a;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px">' +
+          '<span class="material-symbols-outlined" style="font-size:3rem;color:rgba(255,107,53,0.4)">play_circle</span>' +
+          '<a href="https://youtube.com/@greatmindscreating" target="_blank" style="font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:#ffb59d">Watch on YouTube →</a></div>';
+        return;
+      }
+      container.innerHTML = '';
+      snap.forEach(function(doc) {
+        var v = doc.data();
+        var div = document.createElement('div');
+        div.style.cssText = 'aspect-ratio:16/9;border-radius:12px;overflow:hidden';
+        div.innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/' + v.youtubeId + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:block;width:100%;height:100%"></iframe>';
+        container.appendChild(div);
+      });
+    }).catch(function() {});
+}
+
+// ---- MERCH PREVIEW (homepage: Firebase only, no hardcoded items) ----
+function loadMerchPreview() {
+  var container = document.getElementById('merchPreview');
+  if (!container) return;
+  if (typeof firebase === 'undefined' || !firebase.firestore) {
+    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem"><a href="merch.html" style="font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:#ff6b35">Shop All Merch →</a></div>';
+    return;
+  }
+  firebase.firestore().collection('merch').limit(3).get()
+    .then(function(snap) {
+      if (snap.empty) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem"><p style="font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:#e1bfb5;margin-bottom:8px">No merch yet.</p><a href="merch.html" style="font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:#ff6b35">Visit Merch Page →</a></div>';
+        return;
+      }
+      container.innerHTML = '';
+      snap.forEach(function(doc) {
+        var m = doc.data();
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#201f1f;overflow:hidden;border:1px solid rgba(89,65,57,0.15)';
+        var imgHtml = m.imageURL
+          ? '<img src="' + m.imageURL + '" alt="' + (m.name || '') + '" style="width:100%;aspect-ratio:1;object-fit:cover;display:block"/>'
+          : '<div style="aspect-ratio:1;background:#2a2a2a;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:3rem;color:rgba(225,191,181,0.15)">checkroom</span></div>';
+        card.innerHTML = imgHtml +
+          '<div style="padding:1rem">' +
+          '<p style="font-family:Bebas Neue;font-size:1.25rem;color:#e5e2e1;margin-bottom:4px">' + (m.name || '') + '</p>' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">' +
+          '<span style="font-family:Bebas Neue;font-size:1.5rem;color:#ffb59d">$' + parseFloat(m.price || 0).toFixed(2) + '</span>' +
+          '<a href="merch.html" style="font-family:Manrope;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#e1bfb5;text-decoration:none">Shop →</a>' +
+          '</div></div>';
+        container.appendChild(card);
+      });
+    }).catch(function() {
+      container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem"><a href="merch.html" style="font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:#ff6b35">Shop All Merch →</a></div>';
+    });
 }
 </script>
 </body>
