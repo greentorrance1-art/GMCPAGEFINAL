@@ -255,7 +255,7 @@ function openLoginModal(){document.getElementById('loginModal').classList.remove
 function closeLoginModal(){document.getElementById('loginModal').classList.add('hidden');}
 function toggleMobileMenu(){document.getElementById('mobileMenu').classList.toggle('hidden');}
 function handleLogout(){if(typeof firebase!=='undefined'&&firebase.auth)firebase.auth().signOut();}
-function handleLogin(e){e.preventDefault();var email=document.getElementById('loginEmail').value;var pw=document.getElementById('loginPassword').value;var btn=document.getElementById('loginSubmitBtn');var err=document.getElementById('loginError');if(typeof firebase==='undefined'||!firebase.auth){err.textContent='Firebase not configured.';err.classList.remove('hidden');return;}btn.textContent='Logging in...';btn.disabled=true;firebase.auth().signInWithEmailAndPassword(email,pw).then(function(){closeLoginModal();}).catch(function(error){err.textContent=error.message;err.classList.remove('hidden');btn.textContent='Login';btn.disabled=false;});}
+function handleLogin(e){e.preventDefault();var email=document.getElementById('loginEmail').value;var pw=document.getElementById('loginPassword').value;var btn=document.getElementById('loginSubmitBtn');var err=document.getElementById('loginError');if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){err.textContent='Login failed. Please refresh and try again.';err.classList.remove('hidden');return;}btn.textContent='Logging in...';btn.disabled=true;firebase.auth().signInWithEmailAndPassword(email,pw).then(function(){closeLoginModal();}).catch(function(error){err.textContent=error.message;err.classList.remove('hidden');btn.textContent='Login';btn.disabled=false;});}
 </script>
 </body>
 </html>
