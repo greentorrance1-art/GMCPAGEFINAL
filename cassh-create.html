@@ -263,7 +263,7 @@ function loadSongs() {
   var grid = document.getElementById('songsGrid');
   if (!grid) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) { showDefaultSongs(grid); return; }
-  firebase.firestore().collection('songs').where('artistKey','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(6).get()
+  firebase.firestore().collection('songs').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(6).get()
     .then(function(snap) {
       if (snap.empty) { showDefaultSongs(grid); return; }
       grid.innerHTML = '';
@@ -289,7 +289,7 @@ function showDefaultSongs(grid) {
 function loadVideos() {
   var grid = document.getElementById('videosGrid');
   if (!grid || typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('videos').where('artistKey','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(4).get()
+  firebase.firestore().collection('videos').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(4).get()
     .then(function(snap) {
       if (snap.empty) return;
       grid.innerHTML = '';
@@ -358,7 +358,7 @@ function addArtistSong(artist){
   var title=prompt('Song/album title:');
   if(!title)return;
   if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  firebase.firestore().collection('songs').add({title:title,artist:artist,artistKey:'casshcreate',spotifyLink:url,releaseDate:new Date().toISOString(),display:{home:false,artistPage:true},createdAt:new Date().toISOString()})
+  firebase.firestore().collection('songs').add({title:title,artist:artist,spotifyLink:url,releaseDate:new Date().toISOString()})
     .then(function(){loadSongs();});
 }
 function addArtistVideo(artist){
@@ -371,7 +371,7 @@ function addArtistVideo(artist){
   var youtubeId=match?match[1]:null;
   if(!youtubeId){alert('Invalid YouTube URL');return;}
   if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  firebase.firestore().collection('videos').add({title:title,artist:artist,artistKey:'casshcreate',youtubeId:youtubeId,youtubeUrl:url,releaseDate:new Date().toISOString(),display:{home:false,artistPage:true},createdAt:new Date().toISOString()})
+  firebase.firestore().collection('videos').add({title:title,artist:artist,youtubeId:youtubeId,releaseDate:new Date().toISOString()})
     .then(function(){loadVideos();});
 }
 </script>
