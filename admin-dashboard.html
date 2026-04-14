@@ -6,20 +6,21 @@
 <title>Admin — Great Minds Creating</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Bebas+Neue&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","primary-container":"#ff6b35","on-primary":"#5d1900","on-primary-fixed":"#390c00","secondary-fixed":"#ffe16d","on-secondary-fixed":"#221b00","surface":"#131313","surface-container-lowest":"#0e0e0e","surface-container-low":"#1c1b1b","surface-container":"#201f1f","surface-container-high":"#2a2a2a","background":"#131313","on-surface":"#e5e2e1","on-surface-variant":"#e1bfb5","outline":"#a98a80","outline-variant":"#594139","error":"#ffb4ab"},fontFamily:{"bebas":["Bebas Neue"],"body":["Manrope"],"label":["Manrope"],"headline":["Space Grotesk"]}}}}
 </script>
 <style>
   .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
-  .input{width:100%;background:#1c1b1b;border:1px solid rgba(89,65,57,0.4);color:#e5e2e1;padding:12px 16px;font-family:Manrope;font-size:0.875rem;outline:none;transition:border-color 0.2s;margin-bottom:12px;display:block}
-  .input:focus{border-color:#ff6b35}
-  select.input option{background:#1c1b1b}
+  .inp{width:100%;background:#1c1b1b;border:1px solid rgba(89,65,57,0.4);color:#e5e2e1;padding:12px 16px;font-family:Manrope;font-size:0.875rem;outline:none;transition:border-color 0.2s;margin-bottom:12px;display:block;box-sizing:border-box}
+  .inp:focus{border-color:#ff6b35}
+  select.inp option{background:#1c1b1b}
+  .check-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#e1bfb5;cursor:pointer}
+  .check-row input[type=checkbox]{accent-color:#ff6b35;width:16px;height:16px;cursor:pointer;flex-shrink:0}
 </style>
 </head>
 <body class="bg-background text-on-surface font-body">
 
-<!-- GUARD: shown while checking auth -->
 <div id="authGuard" class="fixed inset-0 bg-background flex items-center justify-center z-50">
   <div class="text-center">
     <p class="font-bebas text-4xl text-on-surface mb-2">Verifying Access</p>
@@ -27,19 +28,19 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
   </div>
 </div>
 
-<!-- DASHBOARD (hidden until auth confirmed) -->
 <div id="dashboardContent" class="hidden">
 
-<!-- NAVBAR -->
 <header class="bg-[#0E0E0E] border-b border-[#FFD700]/40 sticky top-0 z-40">
   <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
     <a href="index.html" class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center"><span style="font-family:'Bebas Neue';font-size:0.8rem;color:#0e0e0e">GMC</span></div>
+      <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+        <span style="font-family:'Bebas Neue';font-size:0.8rem;color:#0e0e0e">GMC</span>
+      </div>
       <span class="font-headline text-lg font-bold text-on-surface uppercase tracking-tight">Admin Dashboard</span>
     </a>
     <div class="flex items-center gap-4">
       <span id="adminEmail" class="font-label text-xs uppercase tracking-widest text-secondary-fixed"></span>
-      <a href="index.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">← Back to Site</a>
+      <a href="index.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Back to Site</a>
       <button onclick="handleLogout()" class="border border-outline text-on-surface px-4 py-2 font-bold text-xs uppercase tracking-widest hover:border-primary hover:text-primary transition-all">Logout</button>
     </div>
   </div>
@@ -47,7 +48,6 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
 
 <div class="max-w-7xl mx-auto px-6 py-12">
 
-  <!-- STATS -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
     <div class="bg-surface-container p-6 border border-outline-variant/20">
       <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Total Fans</p>
@@ -71,82 +71,135 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
 
     <!-- ADD RELEASE -->
     <div class="bg-surface-container p-8 border-l-4 border-primary-container">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Add Release</h2>
+      <h2 class="font-bebas text-3xl text-on-surface mb-1">Add Release</h2>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">Song / EP / Album</p>
       <div id="releaseSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Release added!</div>
       <form onsubmit="addRelease(event)">
-        <input class="input" id="releaseTitle" placeholder="Title" required/>
-        <select class="input" id="releaseArtist" required>
+        <input class="inp" id="releaseTitle" placeholder="Title" required/>
+        <select class="inp" id="releaseArtist" required>
           <option value="">Select Artist</option>
           <option value="casshcreate">casshcreate</option>
-          <option value="B Blazo">B Blazo</option>
-          <option value="Jay Bando Baby">Jay Bando Baby</option>
-          <option value="Great Minds Creating">Great Minds Creating (All)</option>
+          <option value="bblazo">B Blazo</option>
+          <option value="jaybandobaby">Jay Bando Baby</option>
         </select>
-        <select class="input" id="releaseType" required>
+        <select class="inp" id="releaseType" required>
           <option value="">Type</option>
           <option value="Single">Single</option>
           <option value="EP">EP</option>
           <option value="Album">Album</option>
         </select>
-        <input class="input" id="releaseSpotify" type="url" placeholder="Spotify URL" required/>
-        <input class="input" id="releaseApple" type="url" placeholder="Apple Music URL (optional)"/>
-        <input class="input" id="releaseCover" type="url" placeholder="Cover Image URL"/>
-        <input class="input" id="releaseDate" type="date" required/>
-        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Add Release</button>
-      </form>
-    </div>
-
-    <!-- CREATE POLL -->
-    <div class="bg-surface-container p-8 border-l-4 border-secondary-fixed">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Create Poll</h2>
-      <div id="pollSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Poll created!</div>
-      <form onsubmit="createPoll(event)">
-        <input class="input" id="pollQuestion" placeholder="Poll Question" required/>
-        <div id="pollOptions">
-          <input class="input poll-option-input" placeholder="Option 1" required/>
-          <input class="input poll-option-input" placeholder="Option 2" required/>
-        </div>
-        <button type="button" onclick="addPollOption()" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors mb-4 block">+ Add Option</button>
-        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all">Create Poll</button>
-      </form>
-    </div>
-
-    <!-- ADD EVENT -->
-    <div class="bg-surface-container p-8 border-l-4 border-primary-container">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Add Event</h2>
-      <div id="eventSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Event added!</div>
-      <form onsubmit="addEvent(event)">
-        <input class="input" id="eventTitle" placeholder="Event Title" required/>
-        <input class="input" id="eventLocation" placeholder="Location" required/>
-        <input class="input" id="eventDate" type="datetime-local" required/>
-        <input class="input" id="eventTicket" type="url" placeholder="Ticket / RSVP Link (optional)"/>
-        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Add Event</button>
+        <input class="inp" id="releaseSpotify" type="url" placeholder="Spotify URL" required/>
+        <input class="inp" id="releaseApple" type="url" placeholder="Apple Music URL (optional)"/>
+        <input class="inp" id="releaseCover" type="url" placeholder="Cover Image URL (optional)"/>
+        <input class="inp" id="releaseDate" type="date" required/>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Show On:</p>
+        <label class="check-row"><input type="checkbox" id="releaseOnArtist" checked/> Artist Page</label>
+        <label class="check-row"><input type="checkbox" id="releaseOnHome"/> Homepage (Recent Drops)</label>
+        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all mt-2">Add Release</button>
       </form>
     </div>
 
     <!-- ADD VIDEO -->
     <div class="bg-surface-container p-8 border-l-4 border-secondary-fixed">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Add Video</h2>
+      <h2 class="font-bebas text-3xl text-on-surface mb-1">Add Video</h2>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">YouTube embed</p>
       <div id="videoSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Video added!</div>
       <form onsubmit="addVideo(event)">
-        <input class="input" id="videoTitle" placeholder="Video Title" required/>
-        <select class="input" id="videoArtist" required>
+        <input class="inp" id="videoTitle" placeholder="Video Title" required/>
+        <select class="inp" id="videoArtist" required>
           <option value="">Select Artist</option>
           <option value="casshcreate">casshcreate</option>
-          <option value="B Blazo">B Blazo</option>
-          <option value="Jay Bando Baby">Jay Bando Baby</option>
+          <option value="bblazo">B Blazo</option>
+          <option value="jaybandobaby">Jay Bando Baby</option>
         </select>
-        <input class="input" id="videoYouTube" type="url" placeholder="YouTube URL" required/>
-        <input class="input" id="videoDate" type="date" required/>
-        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all">Add Video</button>
+        <input class="inp" id="videoYouTube" type="url" placeholder="YouTube URL" required/>
+        <input class="inp" id="videoDate" type="date" required/>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Show On:</p>
+        <label class="check-row"><input type="checkbox" id="videoOnArtist" checked/> Artist Page (Music Videos)</label>
+        <label class="check-row"><input type="checkbox" id="videoOnHome"/> Homepage (Visual Narrative)</label>
+        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all mt-2">Add Video</button>
       </form>
     </div>
+
+    <!-- ADD INSTAGRAM POST -->
+    <div class="bg-surface-container p-8 border-l-4 border-primary-container">
+      <h2 class="font-bebas text-3xl text-on-surface mb-1">Add Instagram Post</h2>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">Paste full post URL</p>
+      <div id="igSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Post added!</div>
+      <form onsubmit="addIgPost(event)">
+        <select class="inp" id="igArtist" required>
+          <option value="">Select Account</option>
+          <option value="casshcreate">casshcreate</option>
+          <option value="bblazo">B Blazo</option>
+          <option value="jaybandobaby">Jay Bando Baby</option>
+          <option value="greatmindscreating">GMC (greatmindscreating)</option>
+        </select>
+        <input class="inp" id="igUrl" type="url" placeholder="https://www.instagram.com/p/XXXXX/" required/>
+        <input class="inp" id="igCaption" placeholder="Caption (optional)"/>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Show On:</p>
+        <label class="check-row"><input type="checkbox" id="igOnArtist" checked/> Artist Page (Instagram Section)</label>
+        <label class="check-row"><input type="checkbox" id="igOnHome"/> Homepage (Feed Section)</label>
+        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all mt-2">Add Post</button>
+      </form>
+    </div>
+
+    <!-- ADD MERCH -->
+    <div class="bg-surface-container p-8 border-l-4 border-secondary-fixed">
+      <h2 class="font-bebas text-3xl text-on-surface mb-1">Add Merch Product</h2>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">merch collection</p>
+      <div id="merchSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Product added!</div>
+      <form onsubmit="addMerch(event)">
+        <input class="inp" id="merchName" placeholder="Product Name" required/>
+        <input class="inp" id="merchPrice" type="number" step="0.01" placeholder="Price (e.g. 35.00)" required/>
+        <input class="inp" id="merchImage" type="url" placeholder="Product Image URL" required/>
+        <select class="inp" id="merchCategory" required>
+          <option value="">Category</option>
+          <option value="hoodies">Hoodies</option>
+          <option value="tshirts">T-Shirts</option>
+          <option value="hats">Hats</option>
+          <option value="accessories">Accessories</option>
+        </select>
+        <input class="inp" id="merchSizes" placeholder="Sizes (e.g. S, M, L, XL)"/>
+        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all mt-2">Add Product</button>
+      </form>
+    </div>
+
+    <!-- CREATE POLL -->
+    <div class="bg-surface-container p-8 border-l-4 border-primary-container">
+      <h2 class="font-bebas text-3xl text-on-surface mb-1">Create Poll</h2>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">polls collection</p>
+      <div id="pollSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Poll created!</div>
+      <form onsubmit="createPoll(event)">
+        <input class="inp" id="pollQuestion" placeholder="Poll Question" required/>
+        <div id="pollOptions">
+          <input class="inp poll-option-input" placeholder="Option 1" required/>
+          <input class="inp poll-option-input" placeholder="Option 2" required/>
+        </div>
+        <button type="button" onclick="addPollOption()" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors mb-4 block">+ Add Option</button>
+        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Create Poll</button>
+      </form>
+    </div>
+
+    <!-- ADD EVENT -->
+    <div class="bg-surface-container p-8 border-l-4 border-secondary-fixed">
+      <h2 class="font-bebas text-3xl text-on-surface mb-1">Add Event</h2>
+      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">events collection</p>
+      <div id="eventSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Event added!</div>
+      <form onsubmit="addEvent(event)">
+        <input class="inp" id="eventTitle" placeholder="Event Title" required/>
+        <input class="inp" id="eventLocation" placeholder="Location" required/>
+        <input class="inp" id="eventDate" type="datetime-local" required/>
+        <input class="inp" id="eventTicket" type="url" placeholder="Ticket / RSVP Link (optional)"/>
+        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all mt-2">Add Event</button>
+      </form>
+    </div>
+
   </div>
 
   <!-- POLL RESULTS -->
   <div class="mt-12 bg-surface-container p-8 border-l-4 border-primary-container">
     <h2 class="font-bebas text-3xl text-on-surface mb-6">Poll Results</h2>
-    <div id="pollResults" class="space-y-6">
+    <div id="pollResults" class="space-y-4">
       <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Loading polls...</p>
     </div>
   </div>
@@ -159,309 +212,167 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script src="config/firebase-config.js"></script>
 <script>
-var ADMIN_EMAILS=['torrancegreen22@yahoo.com','jaybandz635@gmail.com','beats4bblazo@gmail.com'];
+var ADMIN_EMAILS = ['torrancegreen22@yahoo.com','jaybandz635@gmail.com','beats4bblazo@gmail.com'];
 
-document.addEventListener('DOMContentLoaded',function(){
-  if(typeof firebase==='undefined'||!firebase.auth){
-    document.getElementById('authGuard').innerHTML='<div class="text-center"><p class="font-bebas text-4xl text-error">Firebase Not Configured</p><p class="font-label text-xs text-on-surface-variant mt-2">Add config/firebase-config.js to your project</p><a href="index.html" class="font-label text-xs uppercase tracking-widest text-primary mt-4 block hover:underline">← Back to Site</a></div>';
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof firebase === 'undefined' || !firebase.auth) {
+    document.getElementById('authGuard').innerHTML = '<div style="text-align:center"><p style="font-family:Bebas Neue;font-size:2.5rem;color:#ffb4ab">Firebase Not Configured</p><a href="index.html" style="font-family:Manrope;font-size:0.75rem;color:#ffb59d;text-transform:uppercase;letter-spacing:0.1em;margin-top:1rem;display:block">Back to Site</a></div>';
     return;
   }
-  firebase.auth().onAuthStateChanged(function(user){
-    if(!user||ADMIN_EMAILS.indexOf(user.email.toLowerCase())===-1){
-      window.location.replace('index.html');return;
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (!user || ADMIN_EMAILS.indexOf(user.email.toLowerCase()) === -1) {
+      window.location.replace('index.html'); return;
     }
-    document.getElementById('authGuard').style.display='none';
+    document.getElementById('authGuard').style.display = 'none';
     document.getElementById('dashboardContent').classList.remove('hidden');
-    var emailEl=document.getElementById('adminEmail');
-    if(emailEl)emailEl.textContent=user.email;
-    loadStats();loadPollResults();
+    document.getElementById('adminEmail').textContent = user.email;
+    loadStats();
+    loadPollResults();
   });
 });
 
-function loadStats(){
-  if(typeof firebase==='undefined'||!firebase.firestore)return;
-  var db=firebase.firestore();
+function loadStats() {
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  var db = firebase.firestore();
   db.collection('fans').get().then(function(s){document.getElementById('statFans').textContent=s.size;}).catch(function(){});
   db.collection('bookings').get().then(function(s){document.getElementById('statBookings').textContent=s.size;}).catch(function(){});
   db.collection('orders').get().then(function(s){document.getElementById('statOrders').textContent=s.size;}).catch(function(){});
   db.collection('polls').where('active','==',true).get().then(function(s){document.getElementById('statPolls').textContent=s.size;}).catch(function(){});
 }
 
-function loadPollResults(){
-  if(typeof firebase==='undefined'||!firebase.firestore)return;
-  firebase.firestore().collection('polls').get().then(function(snap){
-    var container=document.getElementById('pollResults');
-    if(snap.empty){container.innerHTML='<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant">No polls yet.</p>';return;}
-    container.innerHTML='';
-    snap.forEach(function(doc){
-      var p=doc.data();var totalVotes=0;var voteCounts={};
-      if(p.votes&&typeof p.votes==='object'){Object.keys(p.votes).forEach(function(k){voteCounts[k]=p.votes[k]||0;totalVotes+=voteCounts[k];});}
-      var html='<div class="bg-surface-container-high p-6 rounded"><p class="font-label text-xs uppercase tracking-widest text-primary mb-2">'+(p.active?'Active':'Inactive')+'</p><h3 class="font-bebas text-2xl text-on-surface mb-4">'+p.question+'</h3>';
-      if(p.options){p.options.forEach(function(opt){var c=voteCounts[opt]||0;var pct=totalVotes>0?Math.round((c/totalVotes)*100):0;html+='<div class="mb-3"><div class="flex justify-between mb-1"><span class="font-label text-sm text-on-surface">'+opt+'</span><span class="font-label text-sm text-primary">'+c+' votes ('+pct+'%)</span></div><div style="height:4px;background:#353534;border-radius:2px"><div style="height:100%;width:'+pct+'%;background:#ff6b35;border-radius:2px;transition:width 0.8s ease"></div></div></div>';});}
-      html+='<p class="font-label text-xs text-on-surface-variant mt-3">'+totalVotes+' total votes</p></div>';
-      var div=document.createElement('div');div.innerHTML=html;container.appendChild(div);
+function loadPollResults() {
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  firebase.firestore().collection('polls').get().then(function(snap) {
+    var container = document.getElementById('pollResults');
+    if (snap.empty) { container.innerHTML = '<p style="font-family:Manrope;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#e1bfb5">No polls yet.</p>'; return; }
+    container.innerHTML = '';
+    snap.forEach(function(doc) {
+      var p = doc.data(); var totalVotes = 0; var vc = {};
+      if (p.votes && typeof p.votes === 'object') { Object.keys(p.votes).forEach(function(k){vc[k]=p.votes[k]||0;totalVotes+=vc[k];}); }
+      var html = '<div style="background:#2a2a2a;padding:1.5rem;border-radius:6px"><p style="font-family:Manrope;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.3em;color:'+(p.active?'#ff6b35':'#a98a80')+';margin-bottom:6px">'+(p.active?'Active':'Inactive')+'</p><h3 style="font-family:Bebas Neue;font-size:1.5rem;color:#e5e2e1;margin-bottom:12px">'+p.question+'</h3>';
+      if (p.options) { p.options.forEach(function(opt){var c=vc[opt]||0;var pct=totalVotes>0?Math.round((c/totalVotes)*100):0;html+='<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-family:Manrope;font-size:0.875rem;color:#e5e2e1">'+opt+'</span><span style="font-family:Manrope;font-size:0.75rem;color:#ffb59d">'+c+' ('+pct+'%)</span></div><div style="height:3px;background:#353534;border-radius:2px"><div style="height:100%;width:'+pct+'%;background:#ff6b35;border-radius:2px"></div></div></div>';}); }
+      html += '<p style="font-family:Manrope;font-size:0.65rem;color:rgba(225,191,181,0.4);margin-top:8px">'+totalVotes+' total votes</p></div>';
+      var div = document.createElement('div'); div.innerHTML = html; container.appendChild(div);
     });
   }).catch(function(){});
 }
 
-function addRelease(e){
+// ARTIST VALUE MAP: casshcreate | bblazo | jaybandobaby
+// These must match exactly what artist pages query by
+
+function addRelease(e) {
   e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  var data={title:document.getElementById('releaseTitle').value,artist:document.getElementById('releaseArtist').value,releaseType:document.getElementById('releaseType').value,spotifyLink:document.getElementById('releaseSpotify').value,appleMusicLink:document.getElementById('releaseApple').value,coverImage:document.getElementById('releaseCover').value,releaseDate:document.getElementById('releaseDate').value,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('songs').add(data).then(function(){document.getElementById('releaseSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('releaseSuccess').classList.add('hidden');},3000);}).catch(function(err){alert('Error: '+err.message);});
+  if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var data = {
+    title: document.getElementById('releaseTitle').value,
+    artist: document.getElementById('releaseArtist').value,
+    releaseType: document.getElementById('releaseType').value,
+    spotifyLink: document.getElementById('releaseSpotify').value,
+    appleMusicLink: document.getElementById('releaseApple').value,
+    coverImage: document.getElementById('releaseCover').value,
+    releaseDate: document.getElementById('releaseDate').value,
+    display: {
+      artistPage: document.getElementById('releaseOnArtist').checked,
+      home: document.getElementById('releaseOnHome').checked
+    },
+    createdAt: new Date().toISOString()
+  };
+  firebase.firestore().collection('songs').add(data)
+    .then(function(){document.getElementById('releaseSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('releaseSuccess').classList.add('hidden');},3000);})
+    .catch(function(err){alert('Error: '+err.message);});
 }
 
-function addPollOption(){
-  var input=document.createElement('input');
-  input.className='input poll-option-input';
-  input.placeholder='Option '+(document.querySelectorAll('.poll-option-input').length+1);
+function addVideo(e) {
+  e.preventDefault();
+  if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var url = document.getElementById('videoYouTube').value;
+  var match = url.match(/(?:youtu\.be\/|[?&]v=)([^#&?]{11})/);
+  var youtubeId = match ? match[1] : null;
+  if (!youtubeId) { alert('Invalid YouTube URL.'); return; }
+  var data = {
+    title: document.getElementById('videoTitle').value,
+    artist: document.getElementById('videoArtist').value,
+    youtubeUrl: url,
+    youtubeId: youtubeId,
+    releaseDate: document.getElementById('videoDate').value,
+    display: {
+      artistPage: document.getElementById('videoOnArtist').checked,
+      home: document.getElementById('videoOnHome').checked
+    },
+    createdAt: new Date().toISOString()
+  };
+  firebase.firestore().collection('videos').add(data)
+    .then(function(){document.getElementById('videoSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('videoSuccess').classList.add('hidden');},3000);})
+    .catch(function(err){alert('Error: '+err.message);});
+}
+
+function addIgPost(e) {
+  e.preventDefault();
+  if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var data = {
+    artist: document.getElementById('igArtist').value,
+    postUrl: document.getElementById('igUrl').value,
+    caption: document.getElementById('igCaption').value,
+    display: {
+      artistPage: document.getElementById('igOnArtist').checked,
+      home: document.getElementById('igOnHome').checked
+    },
+    createdAt: new Date().toISOString()
+  };
+  firebase.firestore().collection('instagram_posts').add(data)
+    .then(function(){document.getElementById('igSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('igSuccess').classList.add('hidden');},3000);})
+    .catch(function(err){alert('Error: '+err.message);});
+}
+
+function addMerch(e) {
+  e.preventDefault();
+  if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var data = {
+    name: document.getElementById('merchName').value,
+    price: parseFloat(document.getElementById('merchPrice').value),
+    imageURL: document.getElementById('merchImage').value,
+    category: document.getElementById('merchCategory').value,
+    sizes: document.getElementById('merchSizes').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
+    createdAt: new Date().toISOString()
+  };
+  firebase.firestore().collection('merch').add(data)
+    .then(function(){document.getElementById('merchSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('merchSuccess').classList.add('hidden');},3000);})
+    .catch(function(err){alert('Error: '+err.message);});
+}
+
+function addPollOption() {
+  var input = document.createElement('input');
+  input.className = 'inp poll-option-input';
+  input.placeholder = 'Option ' + (document.querySelectorAll('.poll-option-input').length + 1);
   document.getElementById('pollOptions').appendChild(input);
 }
 
-function createPoll(e){
+function createPoll(e) {
   e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  var options=[];
+  if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var options = [];
   document.querySelectorAll('.poll-option-input').forEach(function(el){if(el.value.trim())options.push(el.value.trim());});
-  if(options.length<2){alert('At least 2 options required.');return;}
-  var data={question:document.getElementById('pollQuestion').value,options:options,votes:{},active:true,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('polls').add(data).then(function(){document.getElementById('pollSuccess').classList.remove('hidden');e.target.reset();document.getElementById('pollOptions').innerHTML='<input class="input poll-option-input" placeholder="Option 1" required/><input class="input poll-option-input" placeholder="Option 2" required/>';setTimeout(function(){document.getElementById('pollSuccess').classList.add('hidden');},3000);loadPollResults();}).catch(function(err){alert('Error: '+err.message);});
+  if (options.length < 2) { alert('At least 2 options required.'); return; }
+  var data = {question:document.getElementById('pollQuestion').value,options:options,votes:{},active:true,createdAt:new Date().toISOString()};
+  firebase.firestore().collection('polls').add(data)
+    .then(function(){document.getElementById('pollSuccess').classList.remove('hidden');e.target.reset();document.getElementById('pollOptions').innerHTML='<input class="inp poll-option-input" placeholder="Option 1" required/><input class="inp poll-option-input" placeholder="Option 2" required/>';setTimeout(function(){document.getElementById('pollSuccess').classList.add('hidden');},3000);loadPollResults();})
+    .catch(function(err){alert('Error: '+err.message);});
 }
 
-function addEvent(e){
+function addEvent(e) {
   e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  var data={title:document.getElementById('eventTitle').value,location:document.getElementById('eventLocation').value,date:document.getElementById('eventDate').value,ticketLink:document.getElementById('eventTicket').value,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('events').add(data).then(function(){document.getElementById('eventSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('eventSuccess').classList.add('hidden');},3000);}).catch(function(err){alert('Error: '+err.message);});
+  if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var data = {title:document.getElementById('eventTitle').value,location:document.getElementById('eventLocation').value,date:document.getElementById('eventDate').value,ticketLink:document.getElementById('eventTicket').value,createdAt:new Date().toISOString()};
+  firebase.firestore().collection('events').add(data)
+    .then(function(){document.getElementById('eventSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('eventSuccess').classList.add('hidden');},3000);})
+    .catch(function(err){alert('Error: '+err.message);});
 }
 
-function addVideo(e){
-  e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  var url=document.getElementById('videoYouTube').value;
-  var match=url.match(/(?:youtu\.be\/|v=)([^#&?]{11})/);
-  var youtubeId=match?match[1]:null;
-  if(!youtubeId){alert('Invalid YouTube URL');return;}
-  var data={title:document.getElementById('videoTitle').value,artist:document.getElementById('videoArtist').value,youtubeUrl:url,youtubeId:youtubeId,releaseDate:document.getElementById('videoDate').value,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('videos').add(data).then(function(){document.getElementById('videoSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('videoSuccess').classList.add('hidden');},3000);}).catch(function(err){alert('Error: '+err.message);});
-}
-
-function handleLogout(){if(typeof firebase!=='undefined'&&firebase.auth){firebase.auth().signOut().then(function(){window.location.replace('index.html');});}}
-</script>
-</body>
-</html>      <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center"><span style="font-family:'Bebas Neue';font-size:0.8rem;color:#0e0e0e">GMC</span></div>
-      <span class="font-headline text-lg font-bold text-on-surface uppercase tracking-tight">Admin Dashboard</span>
-    </a>
-    <div class="flex items-center gap-4">
-      <span id="adminEmail" class="font-label text-xs uppercase tracking-widest text-secondary-fixed"></span>
-      <a href="index.html" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">← Back to Site</a>
-      <button onclick="handleLogout()" class="border border-outline text-on-surface px-4 py-2 font-bold text-xs uppercase tracking-widest hover:border-primary hover:text-primary transition-all">Logout</button>
-    </div>
-  </div>
-</header>
-
-<div class="max-w-7xl mx-auto px-6 py-12">
-
-  <!-- STATS -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-    <div class="bg-surface-container p-6 border border-outline-variant/20">
-      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Total Fans</p>
-      <p id="statFans" class="font-bebas text-4xl text-primary">—</p>
-    </div>
-    <div class="bg-surface-container p-6 border border-outline-variant/20">
-      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Bookings</p>
-      <p id="statBookings" class="font-bebas text-4xl text-primary">—</p>
-    </div>
-    <div class="bg-surface-container p-6 border border-outline-variant/20">
-      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Orders</p>
-      <p id="statOrders" class="font-bebas text-4xl text-primary">—</p>
-    </div>
-    <div class="bg-surface-container p-6 border border-outline-variant/20">
-      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Active Polls</p>
-      <p id="statPolls" class="font-bebas text-4xl text-primary">—</p>
-    </div>
-  </div>
-
-  <div class="grid md:grid-cols-2 gap-8">
-
-    <!-- ADD RELEASE -->
-    <div class="bg-surface-container p-8 border-l-4 border-primary-container">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Add Release</h2>
-      <div id="releaseSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Release added!</div>
-      <form onsubmit="addRelease(event)">
-        <input class="input" id="releaseTitle" placeholder="Title" required/>
-        <select class="input" id="releaseArtist" required>
-          <option value="">Select Artist</option>
-          <option value="casshcreate">casshcreate</option>
-          <option value="B Blazo">B Blazo</option>
-          <option value="Jay Bando Baby">Jay Bando Baby</option>
-          <option value="Great Minds Creating">Great Minds Creating (All)</option>
-        </select>
-        <select class="input" id="releaseType" required>
-          <option value="">Type</option>
-          <option value="Single">Single</option>
-          <option value="EP">EP</option>
-          <option value="Album">Album</option>
-        </select>
-        <input class="input" id="releaseSpotify" type="url" placeholder="Spotify URL" required/>
-        <input class="input" id="releaseApple" type="url" placeholder="Apple Music URL (optional)"/>
-        <input class="input" id="releaseCover" type="url" placeholder="Cover Image URL"/>
-        <input class="input" id="releaseDate" type="date" required/>
-        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Add Release</button>
-      </form>
-    </div>
-
-    <!-- CREATE POLL -->
-    <div class="bg-surface-container p-8 border-l-4 border-secondary-fixed">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Create Poll</h2>
-      <div id="pollSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Poll created!</div>
-      <form onsubmit="createPoll(event)">
-        <input class="input" id="pollQuestion" placeholder="Poll Question" required/>
-        <div id="pollOptions">
-          <input class="input poll-option-input" placeholder="Option 1" required/>
-          <input class="input poll-option-input" placeholder="Option 2" required/>
-        </div>
-        <button type="button" onclick="addPollOption()" class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors mb-4 block">+ Add Option</button>
-        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all">Create Poll</button>
-      </form>
-    </div>
-
-    <!-- ADD EVENT -->
-    <div class="bg-surface-container p-8 border-l-4 border-primary-container">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Add Event</h2>
-      <div id="eventSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Event added!</div>
-      <form onsubmit="addEvent(event)">
-        <input class="input" id="eventTitle" placeholder="Event Title" required/>
-        <input class="input" id="eventLocation" placeholder="Location" required/>
-        <input class="input" id="eventDate" type="datetime-local" required/>
-        <input class="input" id="eventTicket" type="url" placeholder="Ticket / RSVP Link (optional)"/>
-        <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all">Add Event</button>
-      </form>
-    </div>
-
-    <!-- ADD VIDEO -->
-    <div class="bg-surface-container p-8 border-l-4 border-secondary-fixed">
-      <h2 class="font-bebas text-3xl text-on-surface mb-6">Add Video</h2>
-      <div id="videoSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Video added!</div>
-      <form onsubmit="addVideo(event)">
-        <input class="input" id="videoTitle" placeholder="Video Title" required/>
-        <select class="input" id="videoArtist" required>
-          <option value="">Select Artist</option>
-          <option value="casshcreate">casshcreate</option>
-          <option value="B Blazo">B Blazo</option>
-          <option value="Jay Bando Baby">Jay Bando Baby</option>
-        </select>
-        <input class="input" id="videoYouTube" type="url" placeholder="YouTube URL" required/>
-        <input class="input" id="videoDate" type="date" required/>
-        <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all">Add Video</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- POLL RESULTS -->
-  <div class="mt-12 bg-surface-container p-8 border-l-4 border-primary-container">
-    <h2 class="font-bebas text-3xl text-on-surface mb-6">Poll Results</h2>
-    <div id="pollResults" class="space-y-6">
-      <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Loading polls...</p>
-    </div>
-  </div>
-
-</div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="config/firebase-config.js"></script>
-<script>
-var ADMIN_EMAILS=['torrancegreen22@yahoo.com','jaybandz635@gmail.com','beats4bblazo@gmail.com'];
-
-document.addEventListener('DOMContentLoaded',function(){
-  if(typeof firebase==='undefined'||!firebase.auth){
-    document.getElementById('authGuard').innerHTML='<div class="text-center"><p class="font-bebas text-4xl text-error">Firebase Not Configured</p><p class="font-label text-xs text-on-surface-variant mt-2">Add config/firebase-config.js to your project</p><a href="index.html" class="font-label text-xs uppercase tracking-widest text-primary mt-4 block hover:underline">← Back to Site</a></div>';
-    return;
+function handleLogout() {
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().signOut().then(function(){window.location.replace('index.html');});
   }
-  firebase.auth().onAuthStateChanged(function(user){
-    if(!user||ADMIN_EMAILS.indexOf(user.email.toLowerCase())===-1){
-      window.location.replace('index.html');return;
-    }
-    document.getElementById('authGuard').style.display='none';
-    document.getElementById('dashboardContent').classList.remove('hidden');
-    var emailEl=document.getElementById('adminEmail');
-    if(emailEl)emailEl.textContent=user.email;
-    loadStats();loadPollResults();
-  });
-});
-
-function loadStats(){
-  if(typeof firebase==='undefined'||!firebase.firestore)return;
-  var db=firebase.firestore();
-  db.collection('fans').get().then(function(s){document.getElementById('statFans').textContent=s.size;}).catch(function(){});
-  db.collection('bookings').get().then(function(s){document.getElementById('statBookings').textContent=s.size;}).catch(function(){});
-  db.collection('orders').get().then(function(s){document.getElementById('statOrders').textContent=s.size;}).catch(function(){});
-  db.collection('polls').where('active','==',true).get().then(function(s){document.getElementById('statPolls').textContent=s.size;}).catch(function(){});
 }
-
-function loadPollResults(){
-  if(typeof firebase==='undefined'||!firebase.firestore)return;
-  firebase.firestore().collection('polls').get().then(function(snap){
-    var container=document.getElementById('pollResults');
-    if(snap.empty){container.innerHTML='<p class="font-label text-xs uppercase tracking-widest text-on-surface-variant">No polls yet.</p>';return;}
-    container.innerHTML='';
-    snap.forEach(function(doc){
-      var p=doc.data();var totalVotes=0;var voteCounts={};
-      if(p.votes&&typeof p.votes==='object'){Object.keys(p.votes).forEach(function(k){voteCounts[k]=p.votes[k]||0;totalVotes+=voteCounts[k];});}
-      var html='<div class="bg-surface-container-high p-6 rounded"><p class="font-label text-xs uppercase tracking-widest text-primary mb-2">'+(p.active?'Active':'Inactive')+'</p><h3 class="font-bebas text-2xl text-on-surface mb-4">'+p.question+'</h3>';
-      if(p.options){p.options.forEach(function(opt){var c=voteCounts[opt]||0;var pct=totalVotes>0?Math.round((c/totalVotes)*100):0;html+='<div class="mb-3"><div class="flex justify-between mb-1"><span class="font-label text-sm text-on-surface">'+opt+'</span><span class="font-label text-sm text-primary">'+c+' votes ('+pct+'%)</span></div><div style="height:4px;background:#353534;border-radius:2px"><div style="height:100%;width:'+pct+'%;background:#ff6b35;border-radius:2px;transition:width 0.8s ease"></div></div></div>';});}
-      html+='<p class="font-label text-xs text-on-surface-variant mt-3">'+totalVotes+' total votes</p></div>';
-      var div=document.createElement('div');div.innerHTML=html;container.appendChild(div);
-    });
-  }).catch(function(){});
-}
-
-function addRelease(e){
-  e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
-  var data={title:document.getElementById('releaseTitle').value,artist:document.getElementById('releaseArtist').value,releaseType:document.getElementById('releaseType').value,spotifyLink:document.getElementById('releaseSpotify').value,appleMusicLink:document.getElementById('releaseApple').value,coverImage:document.getElementById('releaseCover').value,releaseDate:document.getElementById('releaseDate').value,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('songs').add(data).then(function(){document.getElementById('releaseSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('releaseSuccess').classList.add('hidden');},3000);}).catch(function(err){alert('Error: '+err.message);});
-}
-
-function addPollOption(){
-  var input=document.createElement('input');
-  input.className='input poll-option-input';
-  input.placeholder='Option '+(document.querySelectorAll('.poll-option-input').length+1);
-  document.getElementById('pollOptions').appendChild(input);
-}
-
-function createPoll(e){
-  e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
-  var options=[];
-  document.querySelectorAll('.poll-option-input').forEach(function(el){if(el.value.trim())options.push(el.value.trim());});
-  if(options.length<2){alert('At least 2 options required.');return;}
-  var data={question:document.getElementById('pollQuestion').value,options:options,votes:{},active:true,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('polls').add(data).then(function(){document.getElementById('pollSuccess').classList.remove('hidden');e.target.reset();document.getElementById('pollOptions').innerHTML='<input class="input poll-option-input" placeholder="Option 1" required/><input class="input poll-option-input" placeholder="Option 2" required/>';setTimeout(function(){document.getElementById('pollSuccess').classList.add('hidden');},3000);loadPollResults();}).catch(function(err){alert('Error: '+err.message);});
-}
-
-function addEvent(e){
-  e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
-  var data={title:document.getElementById('eventTitle').value,location:document.getElementById('eventLocation').value,date:document.getElementById('eventDate').value,ticketLink:document.getElementById('eventTicket').value,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('events').add(data).then(function(){document.getElementById('eventSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('eventSuccess').classList.add('hidden');},3000);}).catch(function(err){alert('Error: '+err.message);});
-}
-
-function addVideo(e){
-  e.preventDefault();
-  if(typeof firebase==='undefined'||!firebase.firestore){alert('Firebase not configured.');return;}
-  var url=document.getElementById('videoYouTube').value;
-  var match=url.match(/(?:youtu\.be\/|v=)([^#&?]{11})/);
-  var youtubeId=match?match[1]:null;
-  if(!youtubeId){alert('Invalid YouTube URL');return;}
-  var data={title:document.getElementById('videoTitle').value,artist:document.getElementById('videoArtist').value,youtubeUrl:url,youtubeId:youtubeId,releaseDate:document.getElementById('videoDate').value,createdAt:new Date().toISOString()};
-  firebase.firestore().collection('videos').add(data).then(function(){document.getElementById('videoSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('videoSuccess').classList.add('hidden');},3000);}).catch(function(err){alert('Error: '+err.message);});
-}
-
-function handleLogout(){if(typeof firebase!=='undefined'&&firebase.auth){firebase.auth().signOut().then(function(){window.location.replace('index.html');});}}
 </script>
 </body>
 </html>
