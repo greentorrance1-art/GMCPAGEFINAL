@@ -585,7 +585,10 @@ window.addEventListener('load', function() {
   </div>
 </div>
 
-<!-- Firebase: add CDN scripts here when deploying to production with firebase-config.js -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="config/firebase-config.js"></script>
 <script>
 // ============================================
 // GMC — INLINE APP SCRIPT
@@ -750,8 +753,8 @@ function handleLogin(e) {
   var btn = document.getElementById('loginSubmitBtn');
   var err = document.getElementById('loginError');
 
-  if (typeof firebase === 'undefined' || !firebase.auth) {
-    if (err) { err.textContent = 'Firebase not configured yet.'; err.classList.remove('hidden'); }
+  if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length) {
+    if (err) { err.textContent = 'Authentication unavailable. Check your connection.'; err.classList.remove('hidden'); }
     return;
   }
   if (btn) { btn.textContent = 'Logging in...'; btn.disabled = true; }
