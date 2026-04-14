@@ -25,7 +25,6 @@ tailwind.config = {
   .btn-admin-inline.admin-visible{display:inline-flex!important}
   @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
   .skeleton{background:linear-gradient(90deg,#1a1a1a 25%,#222 50%,#1a1a1a 75%);background-size:200% 100%;animation:shimmer 2.5s infinite;border-radius:8px}
-  iframe[src*="spotify"]{border-radius:12px;display:block}
 </style>
 </head>
 <body class="bg-background text-on-surface font-body pb-20 md:pb-0">
@@ -70,7 +69,7 @@ tailwind.config = {
   <div class="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
   <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-16 pb-12 max-w-7xl mx-auto">
     <p class="font-label text-xs uppercase tracking-[0.4em] text-primary mb-3">Great Minds Creating</p>
-    <h1 id="artistHeroImg" class="font-bebas text-8xl md:text-[10rem] leading-none text-on-surface text-glow mb-6">casshcreate</h1>
+    <h1 class="font-bebas text-8xl md:text-[10rem] leading-none text-on-surface text-glow mb-6">casshcreate</h1>
     <div class="flex items-center gap-4 flex-wrap">
       <button id="followBtn" onclick="handleFollow('casshcreate')" class="border-2 border-primary-container text-on-surface px-8 py-3 font-bold uppercase tracking-widest hover:bg-primary-container hover:text-on-primary-fixed transition-all">Follow</button>
       <div class="flex items-center gap-2 text-secondary-fixed">
@@ -98,18 +97,10 @@ tailwind.config = {
         <span class="material-symbols-outlined text-sm">edit</span>Edit Bio
       </button>
     </div>
-
-    <!-- QUICK LINKS SIDEBAR -->
     <div class="md:col-span-4 hidden md:flex flex-col gap-4">
       <div class="bg-surface-container p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-bebas text-2xl text-primary">Quick Links</h3>
-          <a href="admin-dashboard.html" class="btn-admin-inline items-center gap-1 text-secondary-fixed font-label text-xs uppercase tracking-widest hover:text-on-surface transition-colors">
-            <span class="material-symbols-outlined text-sm">edit</span>Edit
-          </a>
-        </div>
-        <div id="quickLinksContainer" class="space-y-3">
-          <!-- Loaded from Firebase, fallback below -->
+        <h3 class="font-bebas text-2xl text-primary mb-4">Quick Links</h3>
+        <div class="space-y-3">
           <a href="https://open.spotify.com" target="_blank" class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors font-label text-sm uppercase tracking-widest">
             <span class="material-symbols-outlined text-sm">music_note</span>Spotify
           </a>
@@ -168,20 +159,15 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- INSTAGRAM FEED -->
+<!-- INSTAGRAM -->
 <section class="py-20 px-6 md:px-12 bg-surface-container-low overflow-hidden">
   <div class="max-w-7xl mx-auto">
-    <div class="flex justify-between items-end mb-10">
-      <div class="flex items-center gap-4">
-        <div class="h-px w-12 bg-outline-variant/40"></div>
-        <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">@casshcreate</h2>
-      </div>
-      <a href="admin-dashboard.html" class="btn-admin-inline items-center gap-2 bg-secondary-fixed text-on-secondary-fixed px-4 py-2 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
-        <span class="material-symbols-outlined text-sm">add</span>Add Post
-      </a>
+    <div class="flex items-center gap-4 mb-10">
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
+      <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">@casshcreate Highlights</h2>
+      <div class="h-px flex-1 bg-outline-variant/40"></div>
     </div>
-    <div id="igFeed" class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
-      <!-- Fallback cards, replaced by Firebase data -->
+    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
       <a href="https://instagram.com/casshcreate" target="_blank" class="min-w-[200px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
         <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
         <div class="absolute bottom-3 left-3 z-20"><p class="font-label text-xs uppercase tracking-widest text-on-surface">@casshcreate</p></div>
@@ -270,72 +256,14 @@ document.addEventListener('DOMContentLoaded', function() {
       currentUser = u;
       if (u) { handleUserLoggedIn(u); } else { handleUserLoggedOut(); }
     });
-    loadQuickLinks();
-    loadIgFeed();
-    loadArtistBio();
   }
 });
-
-function loadArtistBio() {
-  if (typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('artists').where('name','==',ARTIST).limit(1).get()
-    .then(function(snap) {
-      if (snap.empty) return;
-      var d = snap.docs[0].data();
-      if (d.bio) {
-        var bioEl = document.getElementById('artistBio');
-        if (bioEl) bioEl.innerHTML = '<p>' + d.bio.replace(/\n/g, '</p><p>') + '</p>';
-      }
-    }).catch(function() {});
-}
-
-function loadQuickLinks() {
-  if (typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('quick_links').where('artist','==',ARTIST).orderBy('createdAt','asc').get()
-    .then(function(snap) {
-      if (snap.empty) return;
-      var container = document.getElementById('quickLinksContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      snap.forEach(function(doc) {
-        var d = doc.data();
-        var a = document.createElement('a');
-        a.href = d.url || '#';
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.className = 'flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors font-label text-sm uppercase tracking-widest';
-        a.innerHTML = '<span class="material-symbols-outlined text-sm">'+(d.icon||'link')+'</span>'+escHtml(d.label||'Link');
-        container.appendChild(a);
-      });
-    }).catch(function() {});
-}
-
-function loadIgFeed() {
-  if (typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('instagram_posts').where('artist','==',ARTIST).orderBy('createdAt','desc').limit(6).get()
-    .then(function(snap) {
-      if (snap.empty) return;
-      var container = document.getElementById('igFeed');
-      container.innerHTML = '';
-      snap.forEach(function(doc) {
-        var d = doc.data();
-        var embedUrl = d.url.replace(/\/$/, '') + '/embed/';
-        var wrap = document.createElement('div');
-        wrap.style.cssText = 'min-width:320px;flex-shrink:0;background:#1c1b1b;border-radius:8px;overflow:hidden';
-        wrap.innerHTML = '<iframe src="'+embedUrl+'" width="320" height="400" frameborder="0" scrolling="no" allowtransparency="true" style="width:320px;height:400px;display:block;border:none"></iframe>';
-        container.appendChild(wrap);
-      });
-      if (!document.querySelector('script[src*="instagram.com/embed.js"]')) {
-        var s = document.createElement('script'); s.src = 'https://www.instagram.com/embed.js'; s.async = true; document.body.appendChild(s);
-      } else if (window.instgrm) { window.instgrm.Embeds.process(); }
-    }).catch(function() {});
-}
 
 function loadSongs() {
   var grid = document.getElementById('songsGrid');
   if (!grid) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) { showDefaultSongs(grid); return; }
-  firebase.firestore().collection('songs').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(6).get()
+  firebase.firestore().collection('songs').where('artistKey','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(6).get()
     .then(function(snap) {
       if (snap.empty) { showDefaultSongs(grid); return; }
       grid.innerHTML = '';
@@ -353,13 +281,15 @@ function loadSongs() {
       });
     }).catch(function() { showDefaultSongs(grid); });
 }
+
 function showDefaultSongs(grid) {
   grid.innerHTML = '<div class="bg-surface-container-high rounded-xl overflow-hidden"><iframe style="border-radius:12px;display:block" src="https://open.spotify.com/embed/album/6wUYfAEUysLOeR0uK5I7w1?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div><div class="skeleton rounded-xl" style="height:152px"></div><div class="skeleton rounded-xl" style="height:152px"></div>';
 }
+
 function loadVideos() {
   var grid = document.getElementById('videosGrid');
   if (!grid || typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('videos').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(4).get()
+  firebase.firestore().collection('videos').where('artistKey','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(4).get()
     .then(function(snap) {
       if (snap.empty) return;
       grid.innerHTML = '';
@@ -371,6 +301,7 @@ function loadVideos() {
       });
     }).catch(function() {});
 }
+
 function handleUserLoggedIn(u) {
   var email = u.email ? u.email.toLowerCase() : '';
   var a = ADMIN_USERS[email];
@@ -396,7 +327,7 @@ function handleLogin(e){
   var pw=document.getElementById('loginPassword').value;
   var btn=document.getElementById('loginSubmitBtn');
   var err=document.getElementById('loginError');
-  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){err.textContent='Login failed. Please refresh.';err.classList.remove('hidden');return;}
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){err.textContent='Login failed. Please refresh and try again.';err.classList.remove('hidden');return;}
   btn.textContent='Logging in...';btn.disabled=true;
   firebase.auth().signInWithEmailAndPassword(email,pw)
     .then(function(){closeLoginModal();})
@@ -413,6 +344,7 @@ function editBio(artist){
   if(!currentUser){alert('Admin login required.');return;}
   var bio=prompt('Enter new bio for '+artist+':',document.getElementById('artistBio').innerText);
   if(!bio)return;
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
   firebase.firestore().collection('artists').where('name','==',artist).get().then(function(snap){
     if(snap.empty){firebase.firestore().collection('artists').add({name:artist,bio:bio});}
     else{snap.docs[0].ref.update({bio:bio});}
@@ -425,7 +357,8 @@ function addArtistSong(artist){
   if(!url)return;
   var title=prompt('Song/album title:');
   if(!title)return;
-  firebase.firestore().collection('songs').add({title:title,artist:artist,spotifyLink:url,releaseDate:new Date().toISOString()})
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
+  firebase.firestore().collection('songs').add({title:title,artist:artist,artistKey:'casshcreate',spotifyLink:url,releaseDate:new Date().toISOString(),display:{home:false,artistPage:true},createdAt:new Date().toISOString()})
     .then(function(){loadSongs();});
 }
 function addArtistVideo(artist){
@@ -437,10 +370,10 @@ function addArtistVideo(artist){
   var match=url.match(/(?:youtu\.be\/|v=)([^#&?]{11})/);
   var youtubeId=match?match[1]:null;
   if(!youtubeId){alert('Invalid YouTube URL');return;}
-  firebase.firestore().collection('videos').add({title:title,artist:artist,youtubeId:youtubeId,releaseDate:new Date().toISOString()})
+  if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
+  firebase.firestore().collection('videos').add({title:title,artist:artist,artistKey:'casshcreate',youtubeId:youtubeId,youtubeUrl:url,releaseDate:new Date().toISOString(),display:{home:false,artistPage:true},createdAt:new Date().toISOString()})
     .then(function(){loadVideos();});
 }
-function escHtml(str){if(!str)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
 </html>
