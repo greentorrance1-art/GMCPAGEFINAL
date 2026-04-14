@@ -322,4 +322,292 @@ iframe[src*="spotify"] {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}  font-family: 'Bebas Neue', sans-serif;
+}
+
+.font-headline {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-body, .font-label {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+  50%       { box-shadow: 0 0 20px 4px rgba(255, 107, 53, 0.2); }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #222222 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite;
+  border-radius: 8px;
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* ============================================
+   ADMIN VISIBILITY
+   ============================================ */
+
+.admin-only {
+  display: none !important;
+}
+
+.admin-only.admin-visible {
+  display: flex !important;
+}
+
+.btn-admin-inline {
+  display: none !important;
+}
+
+.btn-admin-inline.admin-visible {
+  display: inline-flex !important;
+}
+
+/* ============================================
+   HERO SLIDER
+   ============================================ */
+
+.slide {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+.slide.active {
+  display: flex;
+}
+
+/* ============================================
+   TEXT GLOW
+   ============================================ */
+
+.text-glow {
+  text-shadow: 0 0 30px rgba(255, 107, 53, 0.45);
+}
+
+/* ============================================
+   GLASSMORPHISM PANELS
+   ============================================ */
+
+.glass-panel {
+  background: rgba(19, 19, 19, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ============================================
+   SCROLLBAR SUPPRESSION
+   ============================================ */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ============================================
+   FAN POLLS
+   ============================================ */
+
+.poll-option {
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  border: 1px solid rgba(89, 65, 57, 0.3);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.poll-option:hover:not(.voted) {
+  background: rgba(255, 107, 53, 0.08);
+  border-color: rgba(255, 107, 53, 0.5);
+}
+
+.poll-option.voted {
+  cursor: default;
+  background: rgba(255, 107, 53, 0.12);
+  border-color: rgba(255, 107, 53, 0.6);
+}
+
+.poll-bar {
+  height: 3px;
+  background: #2a2a2a;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.poll-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s ease;
+}
+
+/* ============================================
+   MUSIC PLAYER (BOTTOM)
+   ============================================ */
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.1s linear;
+}
+
+.progress-fill.playing {
+  background: linear-gradient(90deg, #ff6b35, #ffd700);
+  animation: pulse-glow 2s infinite;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.drop-card,
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.drop-card:hover,
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.12);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Primary button active state */
+.btn-primary-action:active {
+  filter: brightness(0.9);
+  transform: scale(0.98);
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+
+#loginModal,
+#fanSignupModal {
+  transition: opacity 0.2s ease;
+}
+
+#loginModal.hidden,
+#fanSignupModal.hidden {
+  display: none;
+}
+
+/* ============================================
+   FORM INPUTS
+   ============================================ */
+
+input, select, textarea {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+}
+
+/* ============================================
+   SPOTIFY IFRAMES
+   ============================================ */
+
+iframe[src*="spotify"] {
+  border-radius: 12px;
+  display: block;
+}
+
+/* ============================================
+   GRAIN TEXTURE OVERLAY
+   ============================================ */
+
+.grain {
+  position: relative;
+}
+
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .text-9xl {
+    font-size: 5rem;
+  }
+
+  .text-8xl {
+    font-size: 4rem;
+  }
+
+  .text-7xl {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-9xl {
+    font-size: 3.5rem;
+  }
+
+  .text-8xl {
+    font-size: 3rem;
+  }
+}
+
+/* ============================================
+   UTILITY
+   ============================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
