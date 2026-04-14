@@ -146,7 +146,7 @@ tailwind.config = {
       <h2 class="font-label text-sm uppercase tracking-[0.4em] text-primary">@jaybandobaby Highlights</h2>
       <div class="h-px flex-1 bg-outline-variant/40"></div>
     </div>
-    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+    <div id="igFeed" class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
       <a href="https://instagram.com/jaybandobaby" target="_blank" class="min-w-[200px] aspect-square bg-surface-container relative group overflow-hidden flex-shrink-0 block">
         <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent z-10"></div>
         <div class="absolute bottom-3 left-3 z-20"><p class="font-label text-xs uppercase tracking-widest text-on-surface">@jaybandobaby</p></div>
@@ -211,8 +211,34 @@ var ADMIN_USERS={'torrancegreen22@yahoo.com':{role:'super_admin'},'jaybandz635@g
 var currentUser=null;var ARTIST='Jay Bando Baby';
 document.addEventListener('DOMContentLoaded',function(){
   loadSongs();loadVideos();
-  if(typeof firebase!=='undefined'&&firebase.auth){firebase.auth().onAuthStateChanged(function(u){currentUser=u;if(u){handleUserLoggedIn(u);}else{handleUserLoggedOut();}});}
+  if(typeof firebase!=='undefined'&&firebase.auth){
+    firebase.auth().onAuthStateChanged(function(u){currentUser=u;if(u){handleUserLoggedIn(u);}else{handleUserLoggedOut();}});
+    loadArtistBio();loadIgFeed();
+  }
 });
+function loadArtistBio(){
+  if(typeof firebase==='undefined'||!firebase.firestore)return;
+  firebase.firestore().collection('artists').where('name','==',ARTIST).limit(1).get()
+    .then(function(snap){if(snap.empty)return;var d=snap.docs[0].data();if(d.bio){var el=document.getElementById('artistBio');if(el)el.innerHTML='<p>'+d.bio.replace(/\n/g,'</p><p>')+'</p>';}}).catch(function(){});
+}
+function loadIgFeed(){
+  if(typeof firebase==='undefined'||!firebase.firestore)return;
+  firebase.firestore().collection('instagram_posts').where('artist','==','jaybandobaby').orderBy('createdAt','desc').limit(6).get()
+    .then(function(snap){
+      if(snap.empty)return;
+      var container=document.getElementById('igFeed');if(!container)return;
+      container.innerHTML='';
+      snap.forEach(function(doc){
+        var d=doc.data();var embedUrl=d.url.replace(/\/$/,'')+'/embed/';
+        var wrap=document.createElement('div');
+        wrap.style.cssText='min-width:320px;flex-shrink:0;background:#1c1b1b;border-radius:8px;overflow:hidden';
+        wrap.innerHTML='<iframe src="'+embedUrl+'" width="320" height="400" frameborder="0" scrolling="no" allowtransparency="true" style="width:320px;height:400px;display:block;border:none"></iframe>';
+        container.appendChild(wrap);
+      });
+      if(!document.querySelector('script[src*="instagram.com/embed.js"]')){var s=document.createElement('script');s.src='https://www.instagram.com/embed.js';s.async=true;document.body.appendChild(s);}
+      else if(window.instgrm){window.instgrm.Embeds.process();}
+    }).catch(function(){});
+}
 function loadSongs(){var grid=document.getElementById('songsGrid');if(!grid)return;if(typeof firebase==='undefined'||!firebase.firestore){showDefaultSongs(grid);return;}firebase.firestore().collection('songs').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(6).get().then(function(snap){if(snap.empty){showDefaultSongs(grid);return;}grid.innerHTML='';snap.forEach(function(doc){var r=doc.data();var div=document.createElement('div');div.className='bg-surface-container-high rounded-xl overflow-hidden';if(r.spotifyLink){var id=r.spotifyLink.split('/').pop().split('?')[0];var type=r.spotifyLink.indexOf('/album/')!==-1?'album':'track';div.innerHTML='<iframe style="border-radius:12px;display:block" src="https://open.spotify.com/embed/'+type+'/'+id+'?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';}else{div.innerHTML='<div style="height:152px;background:#2a2a2a;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:2rem;color:#594139">music_note</span></div>';}grid.appendChild(div);});}).catch(function(){showDefaultSongs(grid);});}
 function showDefaultSongs(grid){grid.innerHTML='<div class="bg-surface-container-high rounded-xl overflow-hidden"><iframe style="border-radius:12px;display:block" src="https://open.spotify.com/embed/album/6wUYfAEUysLOeR0uK5I7w1?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div><div class="skeleton rounded-xl" style="height:152px"></div><div class="skeleton rounded-xl" style="height:152px"></div>';}
 function loadVideos(){var grid=document.getElementById('videosGrid');if(!grid||typeof firebase==='undefined'||!firebase.firestore)return;firebase.firestore().collection('videos').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(4).get().then(function(snap){if(snap.empty)return;grid.innerHTML='';snap.forEach(function(doc){var v=doc.data();var div=document.createElement('div');div.className='aspect-video bg-surface-container-high rounded-xl overflow-hidden';if(v.youtubeId)div.innerHTML='<iframe width="100%" height="100%" src="https://www.youtube.com/embed/'+v.youtubeId+'" frameborder="0" allowfullscreen></iframe>';grid.appendChild(div);});}).catch(function(){});}
