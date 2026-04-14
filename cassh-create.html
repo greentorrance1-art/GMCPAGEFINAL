@@ -263,7 +263,7 @@ function loadSongs() {
   var grid = document.getElementById('songsGrid');
   if (!grid) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) { showDefaultSongs(grid); return; }
-  firebase.firestore().collection('songs').where('artist','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(6).get()
+  firebase.firestore().collection('songs').where('artist','==','casshcreate').orderBy('releaseDate','desc').limit(6).get()
     .then(function(snap) {
       if (snap.empty) { showDefaultSongs(grid); return; }
       grid.innerHTML = '';
@@ -289,7 +289,7 @@ function showDefaultSongs(grid) {
 function loadVideos() {
   var grid = document.getElementById('videosGrid');
   if (!grid || typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('videos').where('artist','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(4).get()
+  firebase.firestore().collection('videos').where('artist','==','casshcreate').orderBy('releaseDate','desc').limit(4).get()
     .then(function(snap) {
       if (snap.empty) return;
       grid.innerHTML = '';
@@ -379,7 +379,6 @@ function loadArtistInstagram(artistKey) {
   if (typeof firebase === 'undefined' || !firebase.firestore) return;
   firebase.firestore().collection('instagram_posts')
     .where('artist', '==', artistKey)
-    .where('display.artistPage', '==', true)
     .orderBy('createdAt', 'desc')
     .limit(6)
     .get()
