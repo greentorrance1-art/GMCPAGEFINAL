@@ -250,7 +250,7 @@ var currentUser = null;
 var ARTIST = 'casshcreate';
 
 document.addEventListener('DOMContentLoaded', function() {
-  loadSongs(); loadVideos();
+  loadSongs(); loadVideos(); loadArtistInstagram('casshcreate');
   if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().onAuthStateChanged(function(u) {
       currentUser = u;
@@ -263,7 +263,7 @@ function loadSongs() {
   var grid = document.getElementById('songsGrid');
   if (!grid) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) { showDefaultSongs(grid); return; }
-  firebase.firestore().collection('songs').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(6).get()
+  firebase.firestore().collection('songs').where('artist','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(6).get()
     .then(function(snap) {
       if (snap.empty) { showDefaultSongs(grid); return; }
       grid.innerHTML = '';
@@ -289,7 +289,7 @@ function showDefaultSongs(grid) {
 function loadVideos() {
   var grid = document.getElementById('videosGrid');
   if (!grid || typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('videos').where('artist','==',ARTIST).orderBy('releaseDate','desc').limit(4).get()
+  firebase.firestore().collection('videos').where('artist','==','casshcreate').where('display.artistPage','==',true).orderBy('releaseDate','desc').limit(4).get()
     .then(function(snap) {
       if (snap.empty) return;
       grid.innerHTML = '';
@@ -358,7 +358,7 @@ function addArtistSong(artist){
   var title=prompt('Song/album title:');
   if(!title)return;
   if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  firebase.firestore().collection('songs').add({title:title,artist:artist,spotifyLink:url,releaseDate:new Date().toISOString()})
+  firebase.firestore().collection('songs').add({title:title,artist:'casshcreate',spotifyLink:url,releaseDate:new Date().toISOString(),display:{home:false,artistPage:true},createdAt:new Date().toISOString()})
     .then(function(){loadSongs();});
 }
 function addArtistVideo(artist){
@@ -371,8 +371,42 @@ function addArtistVideo(artist){
   var youtubeId=match?match[1]:null;
   if(!youtubeId){alert('Invalid YouTube URL');return;}
   if(typeof firebase==='undefined'||!firebase.apps||!firebase.apps.length){alert('Firebase unavailable. Please refresh.');return;}
-  firebase.firestore().collection('videos').add({title:title,artist:artist,youtubeId:youtubeId,releaseDate:new Date().toISOString()})
+  firebase.firestore().collection('videos').add({title:title,artist:'casshcreate',youtubeId:youtubeId,youtubeUrl:url,releaseDate:new Date().toISOString(),display:{home:false,artistPage:true},createdAt:new Date().toISOString()})
     .then(function(){loadVideos();});
+}
+
+function loadArtistInstagram(artistKey) {
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  firebase.firestore().collection('instagram_posts')
+    .where('artist', '==', artistKey)
+    .where('display.artistPage', '==', true)
+    .orderBy('createdAt', 'desc')
+    .limit(6)
+    .get()
+    .then(function(snap) {
+      if (snap.empty) return; // keep static placeholders
+      // Find the instagram grid container
+      var grid = document.querySelector('.instagram-grid, [data-ig-grid]');
+      if (!grid) return;
+      grid.innerHTML = '';
+      snap.forEach(function(post) {
+        var p = post.data();
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML =
+          '<blockquote class="instagram-media" data-instgrm-permalink="' + p.postUrl + '" data-instgrm-version="14" style="background:#201f1f;border:1px solid rgba(89,65,57,0.3);border-radius:8px;margin:0;min-width:280px;width:100%">' +
+          '<a href="' + p.postUrl + '" target="_blank" style="display:block;padding:1rem;font-family:Manrope;font-size:0.75rem;color:#ffb59d;text-decoration:none">View on Instagram →</a></blockquote>';
+        grid.appendChild(wrapper);
+      });
+      if (!document.getElementById('ig-embed-script')) {
+        var s = document.createElement('script');
+        s.id = 'ig-embed-script';
+        s.async = true;
+        s.src = '//www.instagram.com/embed.js';
+        document.body.appendChild(s);
+      } else if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    }).catch(function() {});
 }
 </script>
 </body>
