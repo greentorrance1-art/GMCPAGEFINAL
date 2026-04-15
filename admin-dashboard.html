@@ -76,12 +76,6 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
       <div id="releaseSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Release added!</div>
       <form onsubmit="addRelease(event)">
         <input class="inp" id="releaseTitle" placeholder="Title" required/>
-        <select class="inp" id="releaseArtist" required>
-          <option value="">Select Artist</option>
-          <option value="casshcreate">casshcreate</option>
-          <option value="bblazo">B Blazo</option>
-          <option value="jaybandobaby">Jay Bando Baby</option>
-        </select>
         <select class="inp" id="releaseType" required>
           <option value="">Type</option>
           <option value="Single">Single</option>
@@ -92,9 +86,20 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
         <input class="inp" id="releaseApple" type="url" placeholder="Apple Music URL (optional)"/>
         <input class="inp" id="releaseCover" type="url" placeholder="Cover Image URL (optional)"/>
         <input class="inp" id="releaseDate" type="date" required/>
-        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Show On:</p>
-        <label class="check-row"><input type="checkbox" id="releaseOnArtist" checked/> Artist Page</label>
-        <label class="check-row"><input type="checkbox" id="releaseOnHome"/> Homepage (Recent Drops)</label>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Where does this go?</p>
+        <select class="inp" id="releaseDest" onchange="toggleReleaseDest()" required>
+          <option value="">Select Destination</option>
+          <option value="home">Homepage (Recent Drops)</option>
+          <option value="artist">Artist Page</option>
+        </select>
+        <div id="releaseArtistRow" style="display:none">
+          <select class="inp" id="releaseArtistId">
+            <option value="">Select Artist</option>
+            <option value="casshcreate">casshcreate</option>
+            <option value="bblazo">B Blazo</option>
+            <option value="jaybandobaby">Jay Bando Baby</option>
+          </select>
+        </div>
         <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all mt-2">Add Release</button>
       </form>
     </div>
@@ -106,17 +111,22 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
       <div id="videoSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Video added!</div>
       <form onsubmit="addVideo(event)">
         <input class="inp" id="videoTitle" placeholder="Video Title" required/>
-        <select class="inp" id="videoArtist" required>
-          <option value="">Select Artist</option>
-          <option value="casshcreate">casshcreate</option>
-          <option value="bblazo">B Blazo</option>
-          <option value="jaybandobaby">Jay Bando Baby</option>
-        </select>
         <input class="inp" id="videoYouTube" type="url" placeholder="YouTube URL" required/>
         <input class="inp" id="videoDate" type="date" required/>
-        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Show On:</p>
-        <label class="check-row"><input type="checkbox" id="videoOnArtist" checked/> Artist Page (Music Videos)</label>
-        <label class="check-row"><input type="checkbox" id="videoOnHome"/> Homepage (Visual Narrative)</label>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Where does this go?</p>
+        <select class="inp" id="videoDest" onchange="toggleVideoDest()" required>
+          <option value="">Select Destination</option>
+          <option value="home">Homepage (Visual Narrative)</option>
+          <option value="artist">Artist Page (Music Videos)</option>
+        </select>
+        <div id="videoArtistRow" style="display:none">
+          <select class="inp" id="videoArtistId">
+            <option value="">Select Artist</option>
+            <option value="casshcreate">casshcreate</option>
+            <option value="bblazo">B Blazo</option>
+            <option value="jaybandobaby">Jay Bando Baby</option>
+          </select>
+        </div>
         <button type="submit" class="w-full bg-secondary-fixed text-on-secondary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-110 transition-all mt-2">Add Video</button>
       </form>
     </div>
@@ -127,18 +137,22 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#ffb59d","pr
       <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-5">Paste full post URL</p>
       <div id="igSuccess" class="hidden bg-primary-container/10 border border-primary-container/30 text-primary font-label text-xs uppercase tracking-widest px-4 py-3 mb-4">Post added!</div>
       <form onsubmit="addIgPost(event)">
-        <select class="inp" id="igArtist" required>
-          <option value="">Select Account</option>
-          <option value="casshcreate">casshcreate</option>
-          <option value="bblazo">B Blazo</option>
-          <option value="jaybandobaby">Jay Bando Baby</option>
-          <option value="greatmindscreating">GMC (greatmindscreating)</option>
-        </select>
         <input class="inp" id="igUrl" type="url" placeholder="https://www.instagram.com/p/XXXXX/" required/>
         <input class="inp" id="igCaption" placeholder="Caption (optional)"/>
-        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Show On:</p>
-        <label class="check-row"><input type="checkbox" id="igOnArtist" checked/> Artist Page (Instagram Section)</label>
-        <label class="check-row"><input type="checkbox" id="igOnHome"/> Homepage (Feed Section)</label>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Where does this go?</p>
+        <select class="inp" id="igDest" onchange="toggleIgDest()" required>
+          <option value="">Select Destination</option>
+          <option value="home">Homepage (Feed Section)</option>
+          <option value="artist">Artist Page (Instagram Section)</option>
+        </select>
+        <div id="igArtistRow" style="display:none">
+          <select class="inp" id="igArtistId">
+            <option value="">Select Artist</option>
+            <option value="casshcreate">casshcreate</option>
+            <option value="bblazo">B Blazo</option>
+            <option value="jaybandobaby">Jay Bando Baby</option>
+          </select>
+        </div>
         <button type="submit" class="w-full bg-primary-container text-on-primary-fixed py-3 font-bold uppercase tracking-widest hover:brightness-125 transition-all mt-2">Add Post</button>
       </form>
     </div>
@@ -263,22 +277,28 @@ function loadPollResults() {
 function addRelease(e) {
   e.preventDefault();
   if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var dest = document.getElementById('releaseDest').value;
+  if (!dest) { alert('Choose a destination.'); return; }
   var data = {
     title: document.getElementById('releaseTitle').value,
-    artist: document.getElementById('releaseArtist').value,
     releaseType: document.getElementById('releaseType').value,
     spotifyLink: document.getElementById('releaseSpotify').value,
     appleMusicLink: document.getElementById('releaseApple').value,
     coverImage: document.getElementById('releaseCover').value,
     releaseDate: document.getElementById('releaseDate').value,
-    display: {
-      artistPage: document.getElementById('releaseOnArtist').checked,
-      home: document.getElementById('releaseOnHome').checked
-    },
+    destinationType: dest,
     createdAt: new Date().toISOString()
   };
+  if (dest === 'artist') {
+    var aid = document.getElementById('releaseArtistId').value;
+    if (!aid) { alert('Select an artist.'); return; }
+    data.artistId = aid;
+    data.artist = aid;
+  } else {
+    data.sectionType = 'recent_drops';
+  }
   firebase.firestore().collection('songs').add(data)
-    .then(function(){document.getElementById('releaseSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('releaseSuccess').classList.add('hidden');},3000);})
+    .then(function(){document.getElementById('releaseSuccess').classList.remove('hidden');e.target.reset();toggleReleaseDest();setTimeout(function(){document.getElementById('releaseSuccess').classList.add('hidden');},3000);})
     .catch(function(err){alert('Error: '+err.message);});
 }
 
@@ -289,38 +309,50 @@ function addVideo(e) {
   var match = url.match(/(?:youtu\.be\/|[?&]v=)([^#&?]{11})/);
   var youtubeId = match ? match[1] : null;
   if (!youtubeId) { alert('Invalid YouTube URL.'); return; }
+  var dest = document.getElementById('videoDest').value;
+  if (!dest) { alert('Choose a destination.'); return; }
   var data = {
     title: document.getElementById('videoTitle').value,
-    artist: document.getElementById('videoArtist').value,
     youtubeUrl: url,
     youtubeId: youtubeId,
     releaseDate: document.getElementById('videoDate').value,
-    display: {
-      artistPage: document.getElementById('videoOnArtist').checked,
-      home: document.getElementById('videoOnHome').checked
-    },
+    destinationType: dest,
     createdAt: new Date().toISOString()
   };
+  if (dest === 'artist') {
+    var aid = document.getElementById('videoArtistId').value;
+    if (!aid) { alert('Select an artist.'); return; }
+    data.artistId = aid;
+    data.artist = aid;
+  } else {
+    data.sectionType = 'visual_narrative';
+  }
   firebase.firestore().collection('videos').add(data)
-    .then(function(){document.getElementById('videoSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('videoSuccess').classList.add('hidden');},3000);})
+    .then(function(){document.getElementById('videoSuccess').classList.remove('hidden');e.target.reset();toggleVideoDest();setTimeout(function(){document.getElementById('videoSuccess').classList.add('hidden');},3000);})
     .catch(function(err){alert('Error: '+err.message);});
 }
 
 function addIgPost(e) {
   e.preventDefault();
   if (typeof firebase === 'undefined' || !firebase.firestore) { alert('Firebase not available.'); return; }
+  var dest = document.getElementById('igDest').value;
+  if (!dest) { alert('Choose a destination.'); return; }
   var data = {
-    artist: document.getElementById('igArtist').value,
     postUrl: document.getElementById('igUrl').value,
     caption: document.getElementById('igCaption').value,
-    display: {
-      artistPage: document.getElementById('igOnArtist').checked,
-      home: document.getElementById('igOnHome').checked
-    },
+    destinationType: dest,
     createdAt: new Date().toISOString()
   };
+  if (dest === 'artist') {
+    var aid = document.getElementById('igArtistId').value;
+    if (!aid) { alert('Select an artist.'); return; }
+    data.artistId = aid;
+    data.artist = aid;
+  } else {
+    data.sectionType = 'instagram_feed';
+  }
   firebase.firestore().collection('instagram_posts').add(data)
-    .then(function(){document.getElementById('igSuccess').classList.remove('hidden');e.target.reset();setTimeout(function(){document.getElementById('igSuccess').classList.add('hidden');},3000);})
+    .then(function(){document.getElementById('igSuccess').classList.remove('hidden');e.target.reset();toggleIgDest();setTimeout(function(){document.getElementById('igSuccess').classList.add('hidden');},3000);})
     .catch(function(err){alert('Error: '+err.message);});
 }
 
@@ -368,6 +400,27 @@ function addEvent(e) {
     .catch(function(err){alert('Error: '+err.message);});
 }
 
+
+function toggleReleaseDest() {
+  var dest = document.getElementById('releaseDest').value;
+  document.getElementById('releaseArtistRow').style.display = dest === 'artist' ? 'block' : 'none';
+  var aid = document.getElementById('releaseArtistId');
+  if (aid) aid.required = (dest === 'artist');
+}
+
+function toggleVideoDest() {
+  var dest = document.getElementById('videoDest').value;
+  document.getElementById('videoArtistRow').style.display = dest === 'artist' ? 'block' : 'none';
+  var aid = document.getElementById('videoArtistId');
+  if (aid) aid.required = (dest === 'artist');
+}
+
+function toggleIgDest() {
+  var dest = document.getElementById('igDest').value;
+  document.getElementById('igArtistRow').style.display = dest === 'artist' ? 'block' : 'none';
+  var aid = document.getElementById('igArtistId');
+  if (aid) aid.required = (dest === 'artist');
+}
 function handleLogout() {
   if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().signOut().then(function(){window.location.replace('index.html');});
