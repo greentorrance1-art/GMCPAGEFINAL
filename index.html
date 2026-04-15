@@ -805,14 +805,17 @@ function updateProgressBar() {
   if (fill) fill.style.width = pct + '%';
 }
 
-// ---- RECENT DROPS ----
+// ---- RECENT DROPS (home, sectionType: recent_drops) ----
 function loadRecentDrops() {
   var container = document.getElementById('latestDrops');
   if (!container) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) {
     showPlaceholderDrops(container); return;
   }
-  firebase.firestore().collection('songs').orderBy('releaseDate', 'desc').limit(3).get()
+  firebase.firestore().collection('songs')
+    .where('destinationType', '==', 'home')
+    .where('sectionType', '==', 'recent_drops')
+    .orderBy('releaseDate', 'desc').limit(3).get()
     .then(function(snap) {
       if (snap.empty) { showPlaceholderDrops(container); return; }
       container.innerHTML = '';
@@ -928,12 +931,15 @@ function castVote(pollId, option) {
   loadPolls();
 }
 
-// ---- HOME FEED (Instagram) ----
+// ---- HOME FEED (home, sectionType: instagram_feed) ----
 function loadHomeFeed() {
   var container = document.getElementById('homeFeedContainer');
   if (!container) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('instagram_posts').orderBy('createdAt', 'desc').limit(6).get()
+  firebase.firestore().collection('instagram_posts')
+    .where('destinationType', '==', 'home')
+    .where('sectionType', '==', 'instagram_feed')
+    .orderBy('createdAt', 'desc').limit(6).get()
     .then(function(snap) {
       if (snap.empty) {
         // Show static profile links as fallback
@@ -967,12 +973,15 @@ function loadHomeFeed() {
     }).catch(function() {});
 }
 
-// ---- HOME VIDEOS (Visual Narrative) ----
+// ---- HOME VIDEOS (home, sectionType: visual_narrative) ----
 function loadHomeVideos() {
   var container = document.getElementById('homeVideoContainer');
   if (!container) return;
   if (typeof firebase === 'undefined' || !firebase.firestore) return;
-  firebase.firestore().collection('videos').orderBy('createdAt', 'desc').limit(4).get()
+  firebase.firestore().collection('videos')
+    .where('destinationType', '==', 'home')
+    .where('sectionType', '==', 'visual_narrative')
+    .orderBy('createdAt', 'desc').limit(4).get()
     .then(function(snap) {
       if (snap.empty) {
         // Fallback: YouTube channel link card
